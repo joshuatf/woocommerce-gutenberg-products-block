@@ -146,6 +146,7 @@ class WGPB_Block_Library {
 		self::register_script( 'wc-product-top-rated', plugins_url( 'build/product-top-rated.js', WGPB_PLUGIN_FILE ), $block_dependencies );
 		self::register_script( 'wc-products-attribute', plugins_url( 'build/products-attribute.js', WGPB_PLUGIN_FILE ), $block_dependencies );
 		self::register_script( 'wc-featured-product', plugins_url( 'build/featured-product.js', WGPB_PLUGIN_FILE ), $block_dependencies );
+		self::register_script( 'wc-product-categories', plugins_url( 'build/product-categories.js', WGPB_PLUGIN_FILE ), $block_dependencies );
 	}
 
 	/**
@@ -339,6 +340,14 @@ class WGPB_Block_Library {
 				'style'           => 'wc-block-style',
 			)
 		);
+		register_block_type(
+			'woocommerce/product-categories',
+			array(
+				'editor_script' => 'wc-product-categories',
+				'editor_style'  => 'wc-block-editor',
+				'style'         => 'wc-block-style',
+			)
+		);
 	}
 
 	/**
@@ -353,6 +362,14 @@ class WGPB_Block_Library {
 		global $wp_locale;
 		$code           = get_woocommerce_currency();
 		$product_counts = wp_count_posts( 'product' );
+
+		$product_categories = get_terms(
+			'product_cat',
+			array(
+				'hide_empty' => false,
+				'pad_counts' => true,
+			)
+		);
 
 		// NOTE: wcSettings is not used directly, it's only for @woocommerce/components
 		//
@@ -395,6 +412,7 @@ class WGPB_Block_Library {
 			'min_height'        => wc_get_theme_support( 'featured_block::min_height', 500 ),
 			'default_height'    => wc_get_theme_support( 'featured_block::default_height', 500 ),
 			'isLargeCatalog'    => $product_counts->publish > 200,
+			'productCategories' => $product_categories,
 		);
 		?>
 		<script type="text/javascript">
