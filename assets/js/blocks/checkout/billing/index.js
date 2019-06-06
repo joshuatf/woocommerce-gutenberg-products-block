@@ -12,36 +12,29 @@ const getFieldBlock = ( field ) => {
 
 	switch ( field.type ) {
 		case 'textarea':
-			return (
-				[ 'woocommerce/checkout-textarea', attributes ]
-			);
+			return [ 'woocommerce/checkout-textarea', attributes ];
+
 		case 'checkbox':
-			return (
-				[ 'woocommerce/checkout-checkbox', attributes ]
-			);
+			return [ 'woocommerce/checkout-checkbox', attributes ];
+
 		case 'radio':
 			const options = Object.entries( field.options ).map( ( [ value, optionLabel ] ) => ( { label: optionLabel, value } ) );
-			return (
-				[ 'woocommerce/checkout-radio', { ...attributes, options } ]
-			);
+			return [ 'woocommerce/checkout-radio', { ...attributes, options } ];
+
 		case 'select':
 		case 'multiselect':
 		case 'country':
 		case 'state':
-			return (
-				[ 'woocommerce/checkout-select', attributes ]
-			);
+			return [ 'woocommerce/checkout-select', attributes ];
+
 		case 'password':
 		case 'email':
 		case 'tel':
 		case 'text':
-			return (
-				[ 'woocommerce/checkout-input', { ...attributes, type: field.type } ]
-			);
+			return [ 'woocommerce/checkout-input', { ...attributes, type: field.type } ];
+
 		default:
-			return (
-				[ 'woocommerce/checkout-input', { ...attributes, type: 'text' } ]
-			);
+			return [ 'woocommerce/checkout-input', { ...attributes, type: 'text' } ];
 	}
 };
 
