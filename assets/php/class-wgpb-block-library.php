@@ -347,9 +347,9 @@ class WGPB_Block_Library {
 		register_block_type(
 			'woocommerce/checkout',
 			array(
-				'editor_script'   => 'wc-checkout',
-				'editor_style'    => 'wc-block-editor',
-				'style'           => 'wc-block-style',
+				'editor_script' => 'wc-checkout',
+				'editor_style'  => 'wc-block-editor',
+				'style'         => 'wc-block-style',
 			)
 		);
 	}
@@ -366,13 +366,6 @@ class WGPB_Block_Library {
 		global $wp_locale;
 		$code           = get_woocommerce_currency();
 		$product_counts = wp_count_posts( 'product' );
-
-		// Set up session and cart to grab checkout fields.
-		$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
-		WC()->session  = new $session_class();
-		WC()->session->init();
-		WC()->cart      = new WC_Cart();
-		$billing_fields = WC()->checkout->get_checkout_fields( 'billing' );
 
 		// NOTE: wcSettings is not used directly, it's only for @woocommerce/components
 		//
@@ -398,7 +391,6 @@ class WGPB_Block_Library {
 				'userLocale'    => get_user_locale(),
 				'weekdaysShort' => array_values( $wp_locale->weekday_abbrev ),
 			),
-			'billingFields' => $billing_fields,
 		);
 		// NOTE: wcSettings is not used directly, it's only for @woocommerce/components.
 		$settings = apply_filters( 'woocommerce_components_settings', $settings );
@@ -430,11 +422,19 @@ class WGPB_Block_Library {
 			}
 		}
 
+		// Set up session and cart to grab checkout fields.
+		$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
+		WC()->session  = new $session_class();
+		WC()->session->init();
+		WC()->cart      = new WC_Cart();
+		$billing_fields = WC()->checkout->get_checkout_fields( 'billing' );
+
 		$checkout_settings = array(
 			'isUserShopManager'     => current_user_can( 'manage_woocommerce' ),
 			'hasCouponsEnabled'     => wc_coupons_enabled(),
 			'hasShippingEnabled'    => wc_get_shipping_method_count() > 0,
 			'activeShippingMethods' => $active_methods,
+			'billingFields'         => $billing_fields,
 		);
 		?>
 		<script type="text/javascript">
