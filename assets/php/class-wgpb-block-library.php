@@ -37,6 +37,10 @@ class WGPB_Block_Library {
 	 * Constructor.
 	 */
 	public function __construct() {
+		if ( defined( 'WC_ABSPATH' ) && is_admin() && ! function_exists( 'wc_get_cart_item_data_hash' ) ) {
+			include_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+		}
+
 		if ( function_exists( 'register_block_type' ) ) {
 			add_action( 'init', array( 'WGPB_Block_Library', 'init' ) );
 		}
@@ -343,9 +347,9 @@ class WGPB_Block_Library {
 		register_block_type(
 			'woocommerce/checkout',
 			array(
-				'editor_script'   => 'wc-checkout',
-				'editor_style'    => 'wc-block-editor',
-				'style'           => 'wc-block-style',
+				'editor_script' => 'wc-checkout',
+				'editor_style'  => 'wc-block-editor',
+				'style'         => 'wc-block-style',
 			)
 		);
 	}
@@ -418,11 +422,19 @@ class WGPB_Block_Library {
 			}
 		}
 
+		// Set up session and cart to grab checkout fields.
+		$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
+		WC()->session  = new $session_class();
+		WC()->session->init();
+		WC()->cart      = new WC_Cart();
+		$billing_fields = WC()->checkout->get_checkout_fields( 'billing' );
+
 		$checkout_settings = array(
 			'isUserShopManager'     => current_user_can( 'manage_woocommerce' ),
 			'hasCouponsEnabled'     => wc_coupons_enabled(),
 			'hasShippingEnabled'    => wc_get_shipping_method_count() > 0,
 			'activeShippingMethods' => $active_methods,
+			'billingFields'         => $billing_fields,
 		);
 		?>
 		<script type="text/javascript">
