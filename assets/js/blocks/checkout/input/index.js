@@ -30,17 +30,17 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'boolean',
 			default: false,
 		},
-		isHidden: {
+		isVisible: {
 			type: 'boolean',
-			default: false,
+			default: true,
 		},
 	},
 	edit( { attributes } ) {
-		const { className, label, isHidden, type, required } = attributes;
+		const { className, label, isVisible, type, required } = attributes;
 
 		return (
 			<Fragment>
-				{ isHidden && (
+				{ Boolean( ! isVisible ) && (
 					<Notice status="info" isDismissible={ false }>
 						{ __( 'This block is hidden. Visibility can be adjusted in the block settings sidebar.', 'woo-gutenberg-products-block' ) }
 					</Notice>
