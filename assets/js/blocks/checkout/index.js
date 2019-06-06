@@ -11,6 +11,7 @@ import { InnerBlocks } from '@wordpress/editor';
 import './billing';
 import './cart';
 import './checkbox';
+import './coupon';
 import './input';
 import './radio';
 import './select';
@@ -27,6 +28,7 @@ registerBlockType( 'woocommerce/checkout', {
 		return (
 			<InnerBlocks
 				template={ [
+					[ 'woocommerce/checkout-coupon' ],
 					[ 'woocommerce/billing' ],
 					[ 'woocommerce/checkout-cart' ],
 				] }
