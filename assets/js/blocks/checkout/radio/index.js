@@ -6,7 +6,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { RadioControl } from '@wordpress/components';
 
 registerBlockType( 'woocommerce/checkout-radio', {
-	title: __( 'Checkout radio', 'woo-gutenberg-products-block' ),
+	title: __( 'Checkout Radio', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	supports: {
