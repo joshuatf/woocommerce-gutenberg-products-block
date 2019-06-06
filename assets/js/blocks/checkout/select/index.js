@@ -20,6 +20,7 @@ registerBlockType( 'woocommerce/checkout-select', {
 
 		return (
 			<SelectControl
+				disabled
 				label={ label }
 				value={ null }
 				options={ [
