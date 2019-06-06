@@ -9,7 +9,11 @@ import { InnerBlocks } from '@wordpress/editor';
  * Internal dependencies
  */
 import './cart';
+import './checkbox';
+import './input';
+import './radio';
 import './select';
+import './textarea';
 
 registerBlockType( 'woocommerce/checkout', {
 	title: __( 'Checkout', 'woo-gutenberg-products-block' ),
