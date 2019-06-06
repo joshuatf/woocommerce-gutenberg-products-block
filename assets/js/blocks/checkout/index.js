@@ -8,6 +8,7 @@ import { InnerBlocks } from '@wordpress/editor';
 /**
  * Internal dependencies
  */
+import './billing';
 import './cart';
 import './checkbox';
 import './input';
@@ -26,13 +27,7 @@ registerBlockType( 'woocommerce/checkout', {
 		return (
 			<InnerBlocks
 				template={ [
-					[
-						'core/heading',
-						{
-							content: __( 'Billing', 'woo-gutenberg-products-block' ),
-							level: 3,
-						},
-					],
+					[ 'woocommerce/billing' ],
 					[ 'woocommerce/checkout-cart' ],
 				] }
 				templateLock="all"
