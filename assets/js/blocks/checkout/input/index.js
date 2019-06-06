@@ -21,17 +21,27 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'string',
 			default: '',
 		},
+		className: {
+			type: 'string',
+			default: '',
+		},
+		required: {
+			type: 'boolean',
+			default: false,
+		},
 	},
 	edit( { attributes } ) {
-		const { label, type } = attributes;
+		const { className, label, type, required } = attributes;
 
 		return (
 			<TextControl
+				className={ className }
 				disabled
 				label={ label }
 				type={ type }
 				value=""
 				onChange={ () => {} }
+				required={ required }
 			/>
 		);
 	},

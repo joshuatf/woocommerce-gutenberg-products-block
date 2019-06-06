@@ -23,17 +23,27 @@ registerBlockType( 'woocommerce/checkout-radio', {
 				{ label: '', value: '' },
 			],
 		},
+		className: {
+			type: 'string',
+			default: '',
+		},
+		required: {
+			type: 'boolean',
+			default: false,
+		},
 	},
 	edit( { attributes } ) {
-		const { label, options } = attributes;
+		const { className, label, options, required } = attributes;
 
 		return (
 			<RadioControl
+				className={ className }
 				disabled
 				label={ label }
 				selected={ null }
 				options={ options }
 				onChange={ () => {} }
+				required={ required }
 			/>
 		);
 	},

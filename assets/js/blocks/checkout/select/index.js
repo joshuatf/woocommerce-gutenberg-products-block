@@ -17,19 +17,29 @@ registerBlockType( 'woocommerce/checkout-select', {
 			type: 'string',
 			default: '',
 		},
+		className: {
+			type: 'string',
+			default: '',
+		},
+		required: {
+			type: 'boolean',
+			default: false,
+		},
 	},
 	edit( { attributes } ) {
-		const { label } = attributes;
+		const { className, label, required } = attributes;
 
 		return (
 			<SelectControl
+				className={ className }
 				disabled
 				label={ label }
-				value={ null }
+				value=""
 				options={ [
 					{ label: '', value: '' },
 				] }
 				onChange={ () => {} }
+				required={ required }
 			/>
 		);
 	},

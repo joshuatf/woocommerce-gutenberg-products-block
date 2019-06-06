@@ -21,17 +21,27 @@ registerBlockType( 'woocommerce/checkout-checkbox', {
 			type: 'string',
 			default: '',
 		},
+		className: {
+			type: 'string',
+			default: '',
+		},
+		required: {
+			type: 'boolean',
+			default: false,
+		},
 	},
 	edit( { attributes } ) {
-		const { heading, label } = attributes;
+		const { className, heading, label, required } = attributes;
 
 		return (
 			<CheckboxControl
+				classNames={ className }
 				disabled
 				heading={ heading }
 				label={ label }
 				checked={ false }
 				onChange={ () => {} }
+				required={ required }
 			/>
 		);
 	},
