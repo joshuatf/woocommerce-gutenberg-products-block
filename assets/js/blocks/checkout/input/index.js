@@ -6,7 +6,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { TextControl } from '@wordpress/components';
 
 registerBlockType( 'woocommerce/checkout-input', {
-	title: __( 'Checkout input', 'woo-gutenberg-products-block' ),
+	title: __( 'Checkout Input', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	supports: {
