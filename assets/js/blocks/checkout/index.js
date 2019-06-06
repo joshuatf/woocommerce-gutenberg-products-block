@@ -5,6 +5,10 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/editor';
 
+/**
+ * Internal dependencies
+ */
+import './cart';
 import './select';
 
 registerBlockType( 'woocommerce/checkout', {
@@ -25,6 +29,7 @@ registerBlockType( 'woocommerce/checkout', {
 							level: 3,
 						},
 					],
+					[ 'woocommerce/checkout-cart' ],
 				] }
 				templateLock="all"
 			/>
