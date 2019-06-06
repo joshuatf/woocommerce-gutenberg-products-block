@@ -37,6 +37,10 @@ class WGPB_Block_Library {
 	 * Constructor.
 	 */
 	public function __construct() {
+		if ( defined( 'WC_ABSPATH' ) && is_admin() && ! function_exists( 'wc_get_cart_item_data_hash' ) ) {
+			include_once WC_ABSPATH . 'includes/wc-cart-functions.php';
+		}
+
 		if ( function_exists( 'register_block_type' ) ) {
 			add_action( 'init', array( 'WGPB_Block_Library', 'init' ) );
 		}
@@ -362,7 +366,13 @@ class WGPB_Block_Library {
 		global $wp_locale;
 		$code           = get_woocommerce_currency();
 		$product_counts = wp_count_posts( 'product' );
-		$checkout       = WC()->checkout();
+
+		// Set up session and cart to grab checkout fields.
+		$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
+		WC()->session  = new $session_class();
+		WC()->session->init();
+		WC()->cart      = new WC_Cart();
+		$billing_fields = WC()->checkout->get_checkout_fields( 'billing' );
 
 		// NOTE: wcSettings is not used directly, it's only for @woocommerce/components
 		//
@@ -388,7 +398,7 @@ class WGPB_Block_Library {
 				'userLocale'    => get_user_locale(),
 				'weekdaysShort' => array_values( $wp_locale->weekday_abbrev ),
 			),
-			'billingFields' => $checkout->get_checkout_fields( 'billing' ),
+			'billingFields' => $billing_fields,
 		);
 		// NOTE: wcSettings is not used directly, it's only for @woocommerce/components.
 		$settings = apply_filters( 'woocommerce_components_settings', $settings );
