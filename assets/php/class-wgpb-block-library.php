@@ -462,6 +462,7 @@ class WGPB_Block_Library {
 			'activeShippingMethods'  => $active_methods,
 			'billingFields'          => $billing_fields,
 			'enabledPaymentGateways' => $enabled_payment_gateways,
+			'privacyPolicy'          => wc_get_privacy_policy_text( 'checkout' ),
 		);
 		?>
 		<script type="text/javascript">
