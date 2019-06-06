@@ -43,6 +43,7 @@ class WGPB_Block_Library {
 
 		if ( function_exists( 'register_block_type' ) ) {
 			add_action( 'init', array( 'WGPB_Block_Library', 'init' ) );
+			add_action( 'save_post', array( 'WGPB_Block_Library', 'save_data_to_settings' ), 10, 2 );
 		}
 	}
 
@@ -639,6 +640,33 @@ class WGPB_Block_Library {
 	public static function add_theme_body_class( $classes = array() ) {
 		$classes[] = 'theme-' . get_template();
 		return $classes;
+	}
+
+	/**
+	 * Update site options with post changes on publish/update.
+	 *
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post    Post object.
+	 */
+	public static function save_data_to_settings( $post_id, $post ) {
+		if ( 'publish' !== $post->post_status ) {
+			return;
+		}
+
+		if ( has_block( 'woocommerce/checkout-privacy-policy', $post ) ) {
+			$blocks = wp_list_filter(
+				parse_blocks( $post->post_content ),
+				array( 'blockName' => 'woocommerce/checkout-privacy-policy' )
+			);
+			if ( empty( $blocks ) ) {
+				return;
+			}
+
+			$inner_blocks = $blocks[0]['innerBlocks'];
+			$content      = wp_list_pluck( $inner_blocks, 'innerHTML' );
+
+			update_option( 'woocommerce_checkout_privacy_policy_text', implode( '', $content ) );
+		}
 	}
 }
 
