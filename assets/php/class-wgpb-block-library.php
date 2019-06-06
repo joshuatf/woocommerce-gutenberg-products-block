@@ -410,7 +410,7 @@ class WGPB_Block_Library {
 			'isLargeCatalog'    => $product_counts->publish > 200,
 		);
 
-		// Checkout settings.
+		// Shipping methods.
 		$active_methods   = array();
 		$shipping_methods = WC()->shipping()->get_shipping_methods();
 		foreach ( $shipping_methods as $id => $shipping_method ) {
@@ -422,7 +422,33 @@ class WGPB_Block_Library {
 			}
 		}
 
-		// Set up session and cart to grab checkout fields.
+		// Payment gateways.
+		$payment_gateways         = WC()->payment_gateways->get_available_payment_gateways();
+		$enabled_payment_gateways = array();
+		foreach ( $payment_gateways as $id => $payment_gateway ) {
+			if ( 'yes' === $payment_gateway->enabled ) {
+				$enabled_payment_gateways[ $id ] = array(
+					'id'                => $id,
+					'title'             => $payment_gateway->method_title,
+					'description'       => $payment_gateway->method_description,
+					'order_button_text' => $payment_gateway->order_button_text,
+					'icon'              => wp_kses(
+						$payment_gateway->get_icon(),
+						array(
+							'img' => array(
+								'alt'    => array(),
+								'class'  => array(),
+								'height' => array(),
+								'src'    => array(),
+								'width'  => array(),
+							),
+						)
+					),
+				);
+			}
+		}
+
+		// Billing fields.
 		$session_class = apply_filters( 'woocommerce_session_handler', 'WC_Session_Handler' );
 		WC()->session  = new $session_class();
 		WC()->session->init();
@@ -430,11 +456,12 @@ class WGPB_Block_Library {
 		$billing_fields = WC()->checkout->get_checkout_fields( 'billing' );
 
 		$checkout_settings = array(
-			'isUserShopManager'     => current_user_can( 'manage_woocommerce' ),
-			'hasCouponsEnabled'     => wc_coupons_enabled(),
-			'hasShippingEnabled'    => wc_get_shipping_method_count() > 0,
-			'activeShippingMethods' => $active_methods,
-			'billingFields'         => $billing_fields,
+			'isUserShopManager'      => current_user_can( 'manage_woocommerce' ),
+			'hasCouponsEnabled'      => wc_coupons_enabled(),
+			'hasShippingEnabled'     => wc_get_shipping_method_count() > 0,
+			'activeShippingMethods'  => $active_methods,
+			'billingFields'          => $billing_fields,
+			'enabledPaymentGateways' => $enabled_payment_gateways,
 		);
 		?>
 		<script type="text/javascript">
