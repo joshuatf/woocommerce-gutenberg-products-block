@@ -402,7 +402,7 @@ class WGPB_Block_Library {
 
 		$checkout_settings = array(
 			'isUserShopManager' => current_user_can( 'manage_woocommerce' ),
-			'isCouponsEnabled'  => wc_coupons_enabled(),
+			'hasCouponsEnabled' => wc_coupons_enabled(),
 			'isShippingEnabled' => ! empty( $packages ),
 		);
 		?>
