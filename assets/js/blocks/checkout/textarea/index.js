@@ -6,7 +6,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { TextareaControl } from '@wordpress/components';
 
 registerBlockType( 'woocommerce/checkout-textarea', {
-	title: __( 'Checkout textarea', 'woo-gutenberg-products-block' ),
+	title: __( 'Checkout Textarea', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	supports: {
