@@ -3,6 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
+import { RadioControl } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -17,6 +18,13 @@ registerBlockType( 'woocommerce/checkout-cart', {
 		html: false,
 	},
 	edit() {
+		const { hasShippingEnabled, activeShippingMethods } = wc_checkout_block_data;
+
+		const methods = [];
+		Object.keys( activeShippingMethods ).forEach( method => {
+			methods.push( { label: activeShippingMethods[ method ].title, value: method } );
+		} );
+
 		return (
 			<div className="wc-checkout__cart">
 				<h3>{ __( 'Your Order', 'woo-gutenberg-products-block' ) }</h3>
@@ -39,14 +47,18 @@ registerBlockType( 'woocommerce/checkout-cart', {
 							<td>$4.00</td>
 						</tr>
 
+						{ hasShippingEnabled && methods.length > 0 && (
 						<tr>
 							<th>{ __( 'Shipping', 'woo-gutenberg-products-block' ) }</th>
 							<td>
-								<ul className="wc-checkout__cart-shipping-list">
-									<li>Shipping method: $1</li>
-								</ul>
+								<RadioControl
+									options={ methods }
+									selected={ methods[0].value }
+									onChange={ () => null }
+								/>
 							</td>
 						</tr>
+						) }
 
 						<tr>
 							<th>{ __( 'Total', 'woo-gutenberg-products-block' ) }</th>
