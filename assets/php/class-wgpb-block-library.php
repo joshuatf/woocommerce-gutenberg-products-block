@@ -405,10 +405,30 @@ class WGPB_Block_Library {
 			'default_height'    => wc_get_theme_support( 'featured_block::default_height', 500 ),
 			'isLargeCatalog'    => $product_counts->publish > 200,
 		);
+
+		// Checkout settings.
+		$active_methods   = array();
+		$shipping_methods = WC()->shipping()->get_shipping_methods();
+		foreach ( $shipping_methods as $id => $shipping_method ) {
+			if ( isset( $shipping_method->enabled ) && 'yes' === $shipping_method->enabled ) {
+				$active_methods[ $id ] = array(
+					'title'       => $shipping_method->method_title,
+					'description' => $shipping_method->method_description,
+				);
+			}
+		}
+
+		$checkout_settings = array(
+			'isUserShopManager'     => current_user_can( 'manage_woocommerce' ),
+			'hasCouponsEnabled'     => wc_coupons_enabled(),
+			'hasShippingEnabled'    => wc_get_shipping_method_count() > 0,
+			'activeShippingMethods' => $active_methods,
+		);
 		?>
 		<script type="text/javascript">
 			var wcSettings = wcSettings || JSON.parse( decodeURIComponent( '<?php echo rawurlencode( wp_json_encode( $settings ) ); ?>' ) );
 			var wc_product_block_data = JSON.parse( decodeURIComponent( '<?php echo rawurlencode( wp_json_encode( $block_settings ) ); ?>' ) );
+			var wc_checkout_block_data = JSON.parse( decodeURIComponent( '<?php echo rawurlencode( wp_json_encode( $checkout_settings ) ); ?>' ) );
 		</script>
 		<?php
 	}
