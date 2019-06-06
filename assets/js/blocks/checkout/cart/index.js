@@ -17,6 +17,12 @@ registerBlockType( 'woocommerce/checkout-cart', {
 		html: false,
 	},
 	edit() {
+		const { hasShippingEnabled, activeShippingMethods } = wc_checkout_block_data;
+
+		const methods = Object.keys( activeShippingMethods ).map( method => {
+			return <li>{ activeShippingMethods[ method ].title }</li>;
+		} );
+
 		return (
 			<div className="wc-checkout__cart">
 				<h3>{ __( 'Your Order', 'woo-gutenberg-products-block' ) }</h3>
@@ -39,14 +45,16 @@ registerBlockType( 'woocommerce/checkout-cart', {
 							<td>$4.00</td>
 						</tr>
 
+						{ hasShippingEnabled && (
 						<tr>
 							<th>{ __( 'Shipping', 'woo-gutenberg-products-block' ) }</th>
 							<td>
 								<ul className="wc-checkout__cart-shipping-list">
-									<li>Shipping method: $1</li>
+									{ methods }
 								</ul>
 							</td>
 						</tr>
+						) }
 
 						<tr>
 							<th>{ __( 'Total', 'woo-gutenberg-products-block' ) }</th>
