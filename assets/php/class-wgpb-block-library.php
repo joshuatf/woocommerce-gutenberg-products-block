@@ -662,10 +662,8 @@ class WGPB_Block_Library {
 				return;
 			}
 
-			$inner_blocks = $blocks[0]['innerBlocks'];
-			$content      = wp_list_pluck( $inner_blocks, 'innerHTML' );
-
-			update_option( 'woocommerce_checkout_privacy_policy_text', implode( '', $content ) );
+			$content = $blocks[0]['innerHTML'];
+			update_option( 'woocommerce_checkout_privacy_policy_text', $content );
 		}
 	}
 }
