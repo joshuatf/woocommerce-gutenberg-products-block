@@ -17,4 +17,8 @@ setCategories( [
 		title: __( 'WooCommerce', 'woo-gutenberg-products-block' ),
 		icon: <IconWoo />,
 	},
+	{
+		slug: 'woocommerce-checkout',
+		title: __( 'WooCommerce Checkout', 'woo-gutenberg-products-block' ),
+	},
 ] );

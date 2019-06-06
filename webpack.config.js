@@ -55,6 +55,8 @@ const GutenbergBlocksConfig = {
 		'featured-product': './assets/js/blocks/featured-product/index.js',
 		// Global styles
 		styles: [ './assets/css/style.scss', './assets/css/editor.scss' ],
+		// Checkout blocks
+		checkout: './assets/js/blocks/checkout/index.js',
 	},
 	output: {
 		path: path.resolve( __dirname, './build/' ),

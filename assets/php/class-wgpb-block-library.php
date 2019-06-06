@@ -146,6 +146,7 @@ class WGPB_Block_Library {
 		self::register_script( 'wc-product-top-rated', plugins_url( 'build/product-top-rated.js', WGPB_PLUGIN_FILE ), $block_dependencies );
 		self::register_script( 'wc-products-attribute', plugins_url( 'build/products-attribute.js', WGPB_PLUGIN_FILE ), $block_dependencies );
 		self::register_script( 'wc-featured-product', plugins_url( 'build/featured-product.js', WGPB_PLUGIN_FILE ), $block_dependencies );
+		self::register_script( 'wc-checkout', plugins_url( 'build/checkout.js', WGPB_PLUGIN_FILE ), $block_dependencies );
 	}
 
 	/**
@@ -335,6 +336,14 @@ class WGPB_Block_Library {
 			array(
 				'render_callback' => array( 'WGPB_Block_Featured_Product', 'render' ),
 				'editor_script'   => 'wc-featured-product',
+				'editor_style'    => 'wc-block-editor',
+				'style'           => 'wc-block-style',
+			)
+		);
+		register_block_type(
+			'woocommerce/checkout',
+			array(
+				'editor_script'   => 'wc-checkout',
 				'editor_style'    => 'wc-block-editor',
 				'style'           => 'wc-block-style',
 			)
