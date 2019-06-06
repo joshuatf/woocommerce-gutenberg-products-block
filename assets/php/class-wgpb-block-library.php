@@ -396,10 +396,20 @@ class WGPB_Block_Library {
 			'default_height'    => wc_get_theme_support( 'featured_block::default_height', 500 ),
 			'isLargeCatalog'    => $product_counts->publish > 200,
 		);
+
+		// Checkout settings.
+		$packages = WC()->shipping->get_packages();
+
+		$checkout_settings = array(
+			'isUserShopManager' => current_user_can( 'manage_woocommerce' ),
+			'isCouponsEnabled'  => wc_coupons_enabled(),
+			'isShippingEnabled' => ! empty( $packages ),
+		);
 		?>
 		<script type="text/javascript">
 			var wcSettings = wcSettings || JSON.parse( decodeURIComponent( '<?php echo rawurlencode( wp_json_encode( $settings ) ); ?>' ) );
 			var wc_product_block_data = JSON.parse( decodeURIComponent( '<?php echo rawurlencode( wp_json_encode( $block_settings ) ); ?>' ) );
+			var wc_checkout_block_data = JSON.parse( decodeURIComponent( '<?php echo rawurlencode( wp_json_encode( $checkout_settings ) ); ?>' ) );
 		</script>
 		<?php
 	}
