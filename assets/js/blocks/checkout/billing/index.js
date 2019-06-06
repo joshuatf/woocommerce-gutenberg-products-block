@@ -39,7 +39,7 @@ const getFieldBlock = ( field ) => {
 };
 
 const getFieldBlocks = () => {
-	if ( ! wc_checkout_block_data || ! wc_checkout_block_data.billingFields ) {
+	if ( 'object' !== typeof wc_checkout_block_data || 'object' !== typeof wc_checkout_block_data.billingFields ) {
 		return;
 	}
 
