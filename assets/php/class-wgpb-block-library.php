@@ -398,12 +398,10 @@ class WGPB_Block_Library {
 		);
 
 		// Checkout settings.
-		$packages = WC()->shipping->get_packages();
-
 		$checkout_settings = array(
 			'isUserShopManager'  => current_user_can( 'manage_woocommerce' ),
 			'hasCouponsEnabled'  => wc_coupons_enabled(),
-			'hasShippingEnabled' => ! empty( $packages ),
+			'hasShippingEnabled' => wc_get_shipping_method_count() > 0,
 		);
 		?>
 		<script type="text/javascript">
