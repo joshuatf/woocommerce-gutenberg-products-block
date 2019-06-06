@@ -36,7 +36,7 @@ registerBlockType( 'woocommerce/checkout-input', {
 		},
 	},
 	edit( { attributes } ) {
-		const { className, label, isVisible, type, required } = attributes;
+		const { className, isVisible, label, required, type } = attributes;
 
 		return (
 			<Fragment>
