@@ -398,10 +398,22 @@ class WGPB_Block_Library {
 		);
 
 		// Checkout settings.
+		$active_methods   = array();
+		$shipping_methods = WC()->shipping()->get_shipping_methods();
+		foreach ( $shipping_methods as $id => $shipping_method ) {
+			if ( isset( $shipping_method->enabled ) && 'yes' === $shipping_method->enabled ) {
+				$active_methods[ $id ] = array(
+					'title'       => $shipping_method->method_title,
+					'description' => $shipping_method->method_description,
+				);
+			}
+		}
+
 		$checkout_settings = array(
-			'isUserShopManager'  => current_user_can( 'manage_woocommerce' ),
-			'hasCouponsEnabled'  => wc_coupons_enabled(),
-			'hasShippingEnabled' => wc_get_shipping_method_count() > 0,
+			'isUserShopManager'     => current_user_can( 'manage_woocommerce' ),
+			'hasCouponsEnabled'     => wc_coupons_enabled(),
+			'hasShippingEnabled'    => wc_get_shipping_method_count() > 0,
+			'activeShippingMethods' => $active_methods,
 		);
 		?>
 		<script type="text/javascript">
