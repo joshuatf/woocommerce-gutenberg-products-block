@@ -362,6 +362,7 @@ class WGPB_Block_Library {
 		global $wp_locale;
 		$code           = get_woocommerce_currency();
 		$product_counts = wp_count_posts( 'product' );
+		$checkout       = WC()->checkout();
 
 		// NOTE: wcSettings is not used directly, it's only for @woocommerce/components
 		//
@@ -387,6 +388,7 @@ class WGPB_Block_Library {
 				'userLocale'    => get_user_locale(),
 				'weekdaysShort' => array_values( $wp_locale->weekday_abbrev ),
 			),
+			'billingFields' => $checkout->get_checkout_fields( 'billing' ),
 		);
 		// NOTE: wcSettings is not used directly, it's only for @woocommerce/components.
 		$settings = apply_filters( 'woocommerce_components_settings', $settings );
