@@ -17,6 +17,12 @@ registerBlockType( 'woocommerce/checkout-select', {
 			type: 'string',
 			default: '',
 		},
+		options: {
+			type: 'array',
+			default: [
+				{ label: '', value: '' },
+			],
+		},
 		className: {
 			type: 'string',
 			default: '',
@@ -27,7 +33,7 @@ registerBlockType( 'woocommerce/checkout-select', {
 		},
 	},
 	edit( { attributes } ) {
-		const { className, label, required } = attributes;
+		const { className, label, options, required } = attributes;
 
 		return (
 			<SelectControl
@@ -35,9 +41,7 @@ registerBlockType( 'woocommerce/checkout-select', {
 				disabled
 				label={ label }
 				value=""
-				options={ [
-					{ label: '', value: '' },
-				] }
+				options={ options }
 				onChange={ () => {} }
 				required={ required }
 			/>

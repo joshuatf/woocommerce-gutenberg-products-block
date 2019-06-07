@@ -502,6 +502,7 @@ class WGPB_Block_Library {
 		uasort( $billing_fields, 'wc_checkout_fields_uasort_comparison' );
 
 		$checkout_settings = array(
+			'shopCountry'            => WC()->countries->countries[ WC_Countries::get_base_country() ],
 			'isUserShopManager'      => current_user_can( 'manage_woocommerce' ),
 			'hasCouponsEnabled'      => wc_coupons_enabled(),
 			'hasShippingEnabled'     => wc_get_shipping_method_count() > 0,

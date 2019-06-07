@@ -5,6 +5,8 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/editor';
 
+const { shopCountry } = wc_checkout_block_data;
+
 const getFieldBlock = ( field ) => {
 	const className = Array.isArray( field.class ) ? field.class.join( ' ' ) : null;
 	const { label, placeholder, required, visible } = field;
@@ -28,9 +30,11 @@ const getFieldBlock = ( field ) => {
 
 		case 'select':
 		case 'multiselect':
-		case 'country':
 		case 'state':
 			return [ 'woocommerce/checkout-select', attributes ];
+
+		case 'country':
+			return [ 'woocommerce/checkout-select', { ...attributes, options: [ { label: shopCountry, value: shopCountry } ] } ];
 
 		case 'password':
 		case 'email':
