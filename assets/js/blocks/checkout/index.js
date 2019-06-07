@@ -24,6 +24,7 @@ registerBlockType( 'woocommerce/checkout', {
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	supports: {
 		html: false,
+		multiple: false,
 	},
 	edit() {
 		return (

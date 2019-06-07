@@ -10,8 +10,11 @@ registerBlockType( 'woocommerce/checkout-input', {
 	title: __( 'Checkout Input', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
+	parent: [ 'woocommerce/checkout-billing' ],
 	supports: {
 		html: false,
+		inserter: false,
+		multiple: false,
 	},
 	attributes: {
 		label: {

@@ -13,8 +13,11 @@ registerBlockType( 'woocommerce/checkout-place-order', {
 	title: __( 'Place Order', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
+	parent: [ 'woocommerce/checkout' ],
 	supports: {
 		html: false,
+		inserter: false,
+		multiple: false,
 	},
 	edit() {
 		return (
