@@ -695,7 +695,7 @@ class WGPB_Block_Library {
 				return $block;
 			}
 			if ( ! empty( $block['innerBlocks'] ) ) {
-				$found_block = self::find_blocks( $block['innerBlocks'], $block_name );
+				$found_block = self::find_block( $block['innerBlocks'], $block_name );
 				if ( $found_block ) {
 					return $found_block;
 				}
