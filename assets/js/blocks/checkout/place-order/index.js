@@ -5,6 +5,10 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/editor';
 
+/**
+ * Internal dependencies
+ */
+import './editor.scss';
 import '../order-button';
 import '../payment-options';
 import '../privacy-policy';

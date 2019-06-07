@@ -33,7 +33,7 @@ registerBlockType( 'woocommerce/checkout-cart', {
 
 		return (
 			<div className="wc-checkout__cart">
-				<h3>{ __( 'Your Order', 'woo-gutenberg-products-block' ) }</h3>
+				<h3>{ __( 'Your order', 'woo-gutenberg-products-block' ) }</h3>
 				<table className="wc-checkout__cart-table">
 					<thead>
 						<tr>
@@ -68,7 +68,7 @@ registerBlockType( 'woocommerce/checkout-cart', {
 							</tr>
 						) }
 
-						<tr>
+						<tr className="wc-checkout__cart-table-total">
 							<th>{ __( 'Total', 'woo-gutenberg-products-block' ) }</th>
 							<td>$5.00</td>
 						</tr>
