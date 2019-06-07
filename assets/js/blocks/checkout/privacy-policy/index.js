@@ -16,7 +16,7 @@ const { privacyPolicy, privacyPolicyId } = wc_checkout_block_data; // eslint-dis
 
 class Edit extends Component {
 	componentDidMount() {
-		this.props.setAttributes( { content: privacyPolicy } );
+		this.props.setAttributes( { content: privacyPolicy, privacyPolicyId } );
 	}
 
 	render() {
