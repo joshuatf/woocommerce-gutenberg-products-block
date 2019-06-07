@@ -5,14 +5,20 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/editor';
 
-const getFieldBlock = ( field ) => {
+/**
+ * Internal dependencies
+ */
+import './editor.scss';
+
+const getFieldBlock = ( field, showRequiredAsterisk ) => {
+	const { shopCountry } = wc_checkout_block_data;
 	const className = Array.isArray( field.class ) ? field.class.join( ' ' ) : null;
-	const { label, required, visible, autocomplete } = field;
-	const attributes = { className, label, isRequired: required, isVisible: visible, id: autocomplete };
+	const { label, placeholder, required, visible, autocomplete } = field;
+	const attributes = { className, label, placeholder, isRequired: required, isVisible: visible, showRequiredAsterisk, id: autocomplete };
 	const withSettings = [
 		'organization',
 		'address-line2',
-		'tel'
+		'tel',
 	];
 
 	switch ( field.type ) {
@@ -30,9 +36,11 @@ const getFieldBlock = ( field ) => {
 
 		case 'select':
 		case 'multiselect':
-		case 'country':
 		case 'state':
 			return [ 'woocommerce/checkout-select', attributes ];
+
+		case 'country':
+			return [ 'woocommerce/checkout-select', { ...attributes, options: [ { label: shopCountry, value: shopCountry } ] } ];
 
 		case 'password':
 		case 'email':
@@ -45,7 +53,7 @@ const getFieldBlock = ( field ) => {
 	}
 };
 
-const getFieldBlocks = () => {
+const getFieldBlocks = ( showRequiredAsterisk ) => {
 	if (
 		'object' !== typeof wc_checkout_block_data ||
 		'object' !== typeof wc_checkout_block_data.billingFields
@@ -54,18 +62,29 @@ const getFieldBlocks = () => {
 	}
 
 	return Object.values( wc_checkout_block_data.billingFields ).map( ( field ) =>
-		getFieldBlock( field )
+		getFieldBlock( field, showRequiredAsterisk )
 	);
 };
 
-registerBlockType( 'woocommerce/checkout-billing', {
+const blockConfiguration = {
 	title: __( 'Billing', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
+	parent: [ 'woocommerce/checkout' ],
 	supports: {
 		html: false,
+		inserter: false,
+		multiple: false,
 	},
-	edit() {
+	attributes: {
+		showRequiredAsterisk: {
+			type: 'boolean',
+			default: false,
+		},
+	},
+	edit( { attributes } ) {
+		const { showRequiredAsterisk } = attributes;
+
 		return (
 			<InnerBlocks
 				template={ [
@@ -76,7 +95,7 @@ registerBlockType( 'woocommerce/checkout-billing', {
 							level: 3,
 						},
 					],
-					...getFieldBlocks(),
+					...getFieldBlocks( showRequiredAsterisk ),
 				] }
 				templateLock="all"
 			/>
@@ -85,4 +104,8 @@ registerBlockType( 'woocommerce/checkout-billing', {
 	save() {
 		return <InnerBlocks.Content />;
 	},
-} );
+};
+
+registerBlockType( 'woocommerce/checkout-billing', blockConfiguration );
+
+registerBlockType( 'woocommerce/checkout-billing-with-asterisks', blockConfiguration );

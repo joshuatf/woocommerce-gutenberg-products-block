@@ -3,7 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { InnerBlocks } from '@wordpress/editor';
+import { InnerBlocks, InspectorControls } from '@wordpress/editor';
+import { Fragment } from '@wordpress/element';
+import { PanelBody, ToggleControl } from '@wordpress/components';
 
 /**
  * Internal dependencies
@@ -13,9 +15,11 @@ import './cart';
 import './checkbox';
 import './coupon';
 import './input';
+import './order-comments';
 import './place-order';
 import './radio';
 import './select';
+import './shipping';
 import './textarea';
 
 registerBlockType( 'woocommerce/checkout', {
@@ -24,21 +28,57 @@ registerBlockType( 'woocommerce/checkout', {
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	supports: {
 		html: false,
+		multiple: false,
 	},
-	edit() {
+	attributes: {
+		showRequiredAsterisk: {
+			type: 'boolean',
+			default: wc_checkout_block_data.highlightRequiredFields,
+		},
+	},
+	edit( { attributes, setAttributes } ) {
+		const { showRequiredAsterisk } = attributes;
+		const billingName = showRequiredAsterisk ?
+			'woocommerce/checkout-billing-with-asterisks' :
+			'woocommerce/checkout-billing';
+
 		return (
-			<InnerBlocks
-				template={ [
-					[ 'woocommerce/checkout-coupon' ],
-					[ 'woocommerce/checkout-billing' ],
-					[ 'woocommerce/checkout-cart' ],
-					[ 'woocommerce/checkout-place-order' ],
-				] }
-				templateLock="all"
-			/>
+			<Fragment>
+				<InnerBlocks
+					template={ [
+						[ 'woocommerce/checkout-coupon' ],
+						[ billingName, { showRequiredAsterisk } ],
+						[ 'woocommerce/checkout-shipping' ],
+						[ 'woocommerce/checkout-order-comments' ],
+						[ 'woocommerce/checkout-cart' ],
+						[ 'woocommerce/checkout-place-order' ],
+					] }
+					templateInsertUpdatesSelection={ false }
+					templateLock="all"
+				/>
+				<InspectorControls key="inspector">
+					<PanelBody title={ __( 'Content', 'woo-gutenberg-products-block' ) }>
+						<ToggleControl
+							label={ __(
+								'Highlight required fields with an asterisk',
+								'woo-gutenberg-products-block'
+							) }
+							checked={ showRequiredAsterisk }
+							onChange={ () =>
+								setAttributes( { showRequiredAsterisk: ! showRequiredAsterisk } )
+							}
+						/>
+					</PanelBody>
+				</InspectorControls>
+			</Fragment>
 		);
 	},
 	save() {
-		return <InnerBlocks.Content />;
+		return (
+			<Fragment>
+				<InnerBlocks.Content />
+				[woocommerce_checkout]
+			</Fragment>
+		);
 	},
 } );

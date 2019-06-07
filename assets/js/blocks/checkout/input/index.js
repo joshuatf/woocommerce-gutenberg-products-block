@@ -11,8 +11,10 @@ registerBlockType( 'woocommerce/checkout-input', {
 	title: __( 'Checkout Input', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
+	parent: [ 'woocommerce/checkout-billing' ],
 	supports: {
 		html: false,
+		inserter: false,
 	},
 	attributes: {
 		id: {
@@ -31,6 +33,14 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'string',
 			default: '',
 		},
+		showRequiredAsterisk: {
+			type: 'boolean',
+			default: false,
+		},
+		placeholder: {
+			type: 'string',
+			default: '',
+		},
 		hasSettings: {
 			type: 'boolean',
 			default: false,
@@ -45,7 +55,14 @@ registerBlockType( 'woocommerce/checkout-input', {
 		},
 	},
 	edit( { attributes, setAttributes } ) {
-		const { className, label, type, hasSettings, isVisible, isRequired } = attributes;
+		const { className, label, placeholder, type, hasSettings, isVisible, isRequired, showRequiredAsterisk } = attributes;
+
+		const formattedLabel = showRequiredAsterisk && isRequired ? (
+			<Fragment>
+				{ label + ' ' }
+				<abbr className="required" title="required">*</abbr>
+			</Fragment>
+		) : label;
 
 		return (
 			<Fragment>
@@ -82,11 +99,12 @@ registerBlockType( 'woocommerce/checkout-input', {
 				<TextControl
 					className={ className }
 					disabled
-					label={ label }
+					label={ formattedLabel }
 					type={ type }
 					value=""
 					onChange={ () => {} }
 					required={ isRequired }
+					placeholder={ placeholder }
 				/>
 			</Fragment>
 		);

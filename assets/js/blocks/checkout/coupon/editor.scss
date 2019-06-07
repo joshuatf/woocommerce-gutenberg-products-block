@@ -1,0 +1,12 @@
+.wc-checkout__coupon {
+	background: #3d9cd2;
+	color: #fff;
+	padding: $gap $gap-large;
+	border-left: 5px solid #0086b6;
+	border-radius: 2px;
+}
+
+.wc-checkout__coupon-show-coupon {
+	text-decoration: underline;
+	cursor: pointer;
+}
