@@ -60,7 +60,7 @@ registerBlockType( 'woocommerce/checkout-privacy-policy', {
 		},
 		privacyPolicyId: {
 			type: 'number',
-			default: privacyPolicyId,
+			default: 0,
 		},
 	},
 	parent: [ 'woocommerce/checkout-place-order' ],
