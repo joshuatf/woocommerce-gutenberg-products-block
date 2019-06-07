@@ -655,17 +655,26 @@ class WGPB_Block_Library {
 			return;
 		}
 
-		if ( has_block( 'woocommerce/checkout-privacy-policy', $post ) ) {
+		if ( has_block( 'woocommerce/checkout', $post ) ) {
 			$blocks = wp_list_filter(
 				parse_blocks( $post->post_content ),
-				array( 'blockName' => 'woocommerce/checkout-privacy-policy' )
+				array( 'blockName' => 'woocommerce/checkout' )
 			);
 			if ( empty( $blocks ) ) {
 				return;
 			}
+			$checkout_block = reset( $blocks );
 
-			$content = trim( $blocks[0]['innerHTML'] );
-			$page_id = $blocks[0]['attrs']['privacyPolicyId'];
+			// $inner_blocks is a pre-parsed list, so you can filter out to your specific block
+			// You might need to filter into innerBlocks again if you have another nested block (billing, etc).
+			$inner_blocks  = wp_list_filter(
+				$checkout_block['innerBlocks'],
+				array( 'blockName' => 'woocommerce/checkout-privacy-policy' )
+			);
+			$privacy_block = reset( $inner_blocks );
+
+			$content = trim( $privacy_block['innerHTML'] );
+			$page_id = $privacy_block['attrs']['privacyPolicyId'];
 			update_option( 'woocommerce_checkout_privacy_policy_text', $content );
 			update_option( 'wp_page_for_privacy_policy', $page_id );
 		}
