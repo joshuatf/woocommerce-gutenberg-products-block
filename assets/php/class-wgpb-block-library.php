@@ -665,8 +665,8 @@ class WGPB_Block_Library {
 			}
 			$checkout_block = reset( $blocks );
 
-			$privacy_block = self::find_blocks( $checkout_block['innerBlocks'], 'woocommerce/checkout-privacy-policy' );
-			$toc_block     = self::find_blocks( $checkout_block['innerBlocks'], 'woocommerce/checkout-terms-and-conditions' );
+			$privacy_block = self::find_block( $checkout_block['innerBlocks'], 'woocommerce/checkout-privacy-policy' );
+			$toc_block     = self::find_block( $checkout_block['innerBlocks'], 'woocommerce/checkout-terms-and-conditions' );
 
 			if ( $privacy_block ) {
 				$content = trim( $privacy_block['innerHTML'] );
@@ -689,7 +689,7 @@ class WGPB_Block_Library {
 	 * @param string $block_name Block type name to search for. When found, the block is returned.
 	 * @return array Associative array representing a block.
 	 */
-	public static function find_blocks( $blocks, $block_name ) {
+	public static function find_block( $blocks, $block_name ) {
 		foreach ( $blocks as $block ) {
 			if ( $block_name === $block['blockName'] ) {
 				return $block;
