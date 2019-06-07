@@ -667,10 +667,10 @@ class WGPB_Block_Library {
 			update_option( 'woocommerce_checkout_privacy_policy_text', $content );
 		}
 
-		if ( has_block( 'woocommerce/terms-and-conditions', $post ) ) {
+		if ( has_block( 'woocommerce/checkout-terms-and-conditions', $post ) ) {
 			$blocks = wp_list_filter(
 				parse_blocks( $post->post_content ),
-				array( 'blockName' => 'woocommerce/terms-and-conditions' )
+				array( 'blockName' => 'woocommerce/checkout-terms-and-conditions' )
 			);
 			if ( empty( $blocks ) ) {
 				return;
