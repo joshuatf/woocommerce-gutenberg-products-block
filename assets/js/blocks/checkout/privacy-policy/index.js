@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Component } from '@wordpress/element';
+import { Component, RawHTML } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import { RichText } from '@wordpress/editor';
 
@@ -34,17 +34,21 @@ registerBlockType( 'woocommerce/checkout-privacy-policy', {
 		content: {
 			type: 'string',
 			source: 'html',
-			selector: 'p',
-			default: '',
+			default: privacyPolicy,
 		},
 	},
 	supports: {
+		className: false,
 		html: false,
 		multiple: false,
 	},
 	edit: Edit,
 	save( { attributes } ) {
 		const { content } = attributes;
-		return content || privacyPolicy;
+		return (
+			<RawHTML>
+				{ content }
+			</RawHTML>
+		);
 	},
 } );
