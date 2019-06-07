@@ -18,6 +18,12 @@ registerBlockType( 'woocommerce/checkout-select', {
 			type: 'string',
 			default: '',
 		},
+		options: {
+			type: 'array',
+			default: [
+				{ label: '', value: '' },
+			],
+		},
 		className: {
 			type: 'string',
 			default: '',
@@ -32,7 +38,7 @@ registerBlockType( 'woocommerce/checkout-select', {
 		},
 	},
 	edit( { attributes } ) {
-		const { className, label, showRequiredAsterisk, isRequired } = attributes;
+		const { className, label, options, showRequiredAsterisk, isRequired } = attributes;
 
 		const formattedLabel = showRequiredAsterisk && isRequired ? (
 			<Fragment>
@@ -47,7 +53,7 @@ registerBlockType( 'woocommerce/checkout-select', {
 				disabled
 				label={ formattedLabel }
 				value=""
-				options={ [ { label: '', value: '' } ] }
+				options={ options }
 				onChange={ () => {} }
 				required={ isRequired }
 			/>

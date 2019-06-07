@@ -6,9 +6,10 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/editor';
 
 const getFieldBlock = ( field, showRequiredAsterisk ) => {
+	const { shopCountry } = wc_checkout_block_data;
 	const className = Array.isArray( field.class ) ? field.class.join( ' ' ) : null;
-	const { label, required, visible } = field;
-	const attributes = { className, label, isRequired: required, isVisible: visible, showRequiredAsterisk };
+	const { label, placeholder, required, visible } = field;
+	const attributes = { className, label, placeholder, isRequired: required, isVisible: visible, showRequiredAsterisk };
 	const withSettings = [
 		'organization',
 		'address-line2',
@@ -30,9 +31,11 @@ const getFieldBlock = ( field, showRequiredAsterisk ) => {
 
 		case 'select':
 		case 'multiselect':
-		case 'country':
 		case 'state':
 			return [ 'woocommerce/checkout-select', attributes ];
+
+		case 'country':
+			return [ 'woocommerce/checkout-select', { ...attributes, options: [ { label: shopCountry, value: shopCountry } ] } ];
 
 		case 'password':
 		case 'email':

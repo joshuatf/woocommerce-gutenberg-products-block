@@ -31,6 +31,10 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'boolean',
 			default: false,
 		},
+		placeholder: {
+			type: 'string',
+			default: '',
+		},
 		hasSettings: {
 			type: 'boolean',
 			default: false,
@@ -45,7 +49,7 @@ registerBlockType( 'woocommerce/checkout-input', {
 		},
 	},
 	edit( { attributes, setAttributes } ) {
-		const { className, label, type, hasSettings, isVisible, isRequired, showRequiredAsterisk } = attributes;
+		const { className, label, placeholder, type, hasSettings, isVisible, isRequired, showRequiredAsterisk } = attributes;
 
 		const formattedLabel = showRequiredAsterisk && isRequired ? (
 			<Fragment>
@@ -94,6 +98,7 @@ registerBlockType( 'woocommerce/checkout-input', {
 					value=""
 					onChange={ () => {} }
 					required={ isRequired }
+					placeholder={ placeholder }
 				/>
 			</Fragment>
 		);

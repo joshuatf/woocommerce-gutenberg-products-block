@@ -473,7 +473,8 @@ class WGPB_Block_Library {
 				'visible'      => 'hidden' !== get_option( 'woocommerce_checkout_company_field', 'optional' ),
 			),
 			'billing_address_2' => array(
-				'label'        => __( 'Apartment, suite, unit etc.', 'woo-gutenberg-products-block' ),
+				'label'        => '',
+				'placeholder'  => __( 'Apartment, suite, unit etc.', 'woo-gutenberg-products-block' ),
 				'class'        => array( 'form-row-wide', 'address-field' ),
 				'autocomplete' => 'address-line2',
 				'priority'     => 60,
@@ -501,15 +502,16 @@ class WGPB_Block_Library {
 		uasort( $billing_fields, 'wc_checkout_fields_uasort_comparison' );
 
 		$checkout_settings = array(
-			'isUserShopManager'       => current_user_can( 'manage_woocommerce' ),
-			'hasCouponsEnabled'       => wc_coupons_enabled(),
-			'hasShippingEnabled'      => wc_get_shipping_method_count() > 0,
-			'activeShippingMethods'   => $active_methods,
-			'billingFields'           => $billing_fields,
-			'enabledPaymentGateways'  => $enabled_payment_gateways,
-			'privacyPolicy'           => wc_get_privacy_policy_text( 'checkout' ),
-			'privacyPolicyId'         => wc_privacy_policy_page_id(),
-			'termsAndConditions'      => wc_get_terms_and_conditions_checkbox_text(),
+			'shopCountry'            => WC()->countries->countries[ WC()->countries->get_base_country() ],
+			'isUserShopManager'      => current_user_can( 'manage_woocommerce' ),
+			'hasCouponsEnabled'      => wc_coupons_enabled(),
+			'hasShippingEnabled'     => wc_get_shipping_method_count() > 0,
+			'activeShippingMethods'  => $active_methods,
+			'billingFields'          => $billing_fields,
+			'enabledPaymentGateways' => $enabled_payment_gateways,
+			'privacyPolicy'          => wc_get_privacy_policy_text( 'checkout' ),
+			'privacyPolicyId'        => wc_privacy_policy_page_id(),
+			'termsAndConditions'     => wc_get_terms_and_conditions_checkbox_text(),
 			'highlightRequiredFields' => wc_string_to_bool( get_option( 'woocommerce_checkout_highlight_required_fields', 'yes' ) ),
 		);
 		?>
