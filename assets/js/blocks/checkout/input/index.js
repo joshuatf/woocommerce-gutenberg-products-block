@@ -3,7 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { TextControl } from '@wordpress/components';
+import { TextControl, PanelBody, ToggleControl } from '@wordpress/components';
+import { InspectorControls } from '@wordpress/editor';
+import { Fragment } from '@wordpress/element';
 
 registerBlockType( 'woocommerce/checkout-input', {
 	title: __( 'Checkout Input', 'woo-gutenberg-products-block' ),
@@ -25,24 +27,56 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'string',
 			default: '',
 		},
-		required: {
+		hasSettings: {
+			type: 'boolean',
+			default: false,
+		},
+		isVisible: {
+			type: 'boolean',
+			default: true,
+		},
+		isRequired: {
 			type: 'boolean',
 			default: false,
 		},
 	},
-	edit( { attributes } ) {
-		const { className, label, type, required } = attributes;
+	edit( { attributes, setAttributes } ) {
+		const { className, label, type, hasSettings, isVisible, isRequired } = attributes;
 
 		return (
-			<TextControl
-				className={ className }
-				disabled
-				label={ label }
-				type={ type }
-				value=""
-				onChange={ () => {} }
-				required={ required }
-			/>
+			<Fragment>
+				{ hasSettings && (
+					<InspectorControls key="inspector">
+							<PanelBody
+								title={ __( 'Field Settings', 'woo-gutenberg-products-block' ) }
+							>
+								<ToggleControl
+									label={ __( 'Visibility', 'woo-gutenberg-products-block' ) }
+									help={ isVisible ? __( 'This field is visible.', 'woo-gutenberg-products-block' ) : __( 'This field is hidden.', 'woo-gutenberg-products-block' ) }
+									checked={ isVisible }
+									onChange={ ( nextValue ) => setAttributes( { isVisible: nextValue } ) }
+								/>
+								{ isVisible && (
+									<ToggleControl
+										label={ __( 'Required', 'woo-gutenberg-products-block' ) }
+										help={ isRequired ? __( 'This field is required.', 'woo-gutenberg-products-block' ) : __( 'This field is optional.', 'woo-gutenberg-products-block' ) }
+										checked={ isRequired }
+										onChange={ ( nextValue ) => setAttributes( { isRequired: nextValue } ) }
+									/>
+								) }
+							</PanelBody>
+					</InspectorControls>
+				) }
+				<TextControl
+					className={ className }
+					disabled
+					label={ label }
+					type={ type }
+					value=""
+					onChange={ () => {} }
+					required={ isRequired }
+				/>
+			</Fragment>
 		);
 	},
 	save() {
