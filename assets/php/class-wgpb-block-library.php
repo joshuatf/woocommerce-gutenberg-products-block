@@ -717,9 +717,14 @@ class WGPB_Block_Library {
 
 			if ( $privacy_block ) {
 				$content = trim( $privacy_block['innerHTML'] );
-				$page_id = $privacy_block['attrs']['privacyPolicyId'];
 				update_option( 'woocommerce_checkout_privacy_policy_text', $content );
-				update_option( 'wp_page_for_privacy_policy', $page_id );
+
+				if ( isset( $privacy_block['attrs']['privacyPolicyId'] ) ) {
+					$page_id = $privacy_block['attrs']['privacyPolicyId'];
+					update_option( 'wp_page_for_privacy_policy', $page_id );
+				} else {
+					update_option( 'wp_page_for_privacy_policy', false );
+				}
 			}
 
 			if ( $toc_block ) {
