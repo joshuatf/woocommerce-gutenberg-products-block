@@ -19,9 +19,7 @@ registerBlockType( 'woocommerce/checkout-radio', {
 		},
 		options: {
 			type: 'array',
-			default: [
-				{ label: '', value: '' },
-			],
+			default: [ { label: '', value: '' } ],
 		},
 		className: {
 			type: 'string',

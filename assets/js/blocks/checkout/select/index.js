@@ -35,9 +35,7 @@ registerBlockType( 'woocommerce/checkout-select', {
 				disabled
 				label={ label }
 				value=""
-				options={ [
-					{ label: '', value: '' },
-				] }
+				options={ [ { label: '', value: '' } ] }
 				onChange={ () => {} }
 				required={ required }
 			/>

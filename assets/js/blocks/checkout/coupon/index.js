@@ -15,17 +15,15 @@ registerBlockType( 'woocommerce/checkout-coupon', {
 	edit() {
 		return (
 			<div className="woocommerce-info">
-				{
-					interpolateComponents( {
-						mixedString: __(
-							'Have a coupon? {{link}}Click here to enter your code{{/link}}',
-							'woocommerce-admin'
-						),
-						components: {
-							link: <span className="showcoupon" />,
-						},
-					} )
-				}
+				{ interpolateComponents( {
+					mixedString: __(
+						'Have a coupon? {{link}}Click here to enter your code{{/link}}',
+						'woocommerce-admin'
+					),
+					components: {
+						link: <span className="showcoupon" />,
+					},
+				} ) }
 			</div>
 		);
 	},
