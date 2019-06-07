@@ -30,7 +30,7 @@ registerBlockType( 'woocommerce/checkout', {
 	attributes: {
 		showRequiredAsterisk: {
 			type: 'boolean',
-			default: false,
+			default: wc_checkout_block_data.highlightRequiredFields,
 		},
 	},
 	edit( { attributes, setAttributes } ) {

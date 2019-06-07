@@ -457,15 +457,16 @@ class WGPB_Block_Library {
 		$billing_fields = WC()->checkout->get_checkout_fields( 'billing' );
 
 		$checkout_settings = array(
-			'isUserShopManager'      => current_user_can( 'manage_woocommerce' ),
-			'hasCouponsEnabled'      => wc_coupons_enabled(),
-			'hasShippingEnabled'     => wc_get_shipping_method_count() > 0,
-			'activeShippingMethods'  => $active_methods,
-			'billingFields'          => $billing_fields,
-			'enabledPaymentGateways' => $enabled_payment_gateways,
-			'privacyPolicy'          => wc_get_privacy_policy_text( 'checkout' ),
-			'privacyPolicyId'        => wc_privacy_policy_page_id(),
-			'termsAndConditions'     => wc_get_terms_and_conditions_checkbox_text(),
+			'isUserShopManager'       => current_user_can( 'manage_woocommerce' ),
+			'hasCouponsEnabled'       => wc_coupons_enabled(),
+			'hasShippingEnabled'      => wc_get_shipping_method_count() > 0,
+			'activeShippingMethods'   => $active_methods,
+			'billingFields'           => $billing_fields,
+			'enabledPaymentGateways'  => $enabled_payment_gateways,
+			'privacyPolicy'           => wc_get_privacy_policy_text( 'checkout' ),
+			'privacyPolicyId'         => wc_privacy_policy_page_id(),
+			'termsAndConditions'      => wc_get_terms_and_conditions_checkbox_text(),
+			'highlightRequiredFields' => wc_string_to_bool( get_option( 'woocommerce_checkout_highlight_required_fields', 'yes' ) ),
 		);
 		?>
 		<script type="text/javascript">
