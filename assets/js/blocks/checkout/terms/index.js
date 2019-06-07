@@ -7,6 +7,11 @@ import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import { RichText } from '@wordpress/editor';
 
+/**
+ * Internal dependencies
+ */
+import './editor.scss';
+
 const { termsAndConditions } = wc_checkout_block_data;
 
 class Edit extends Component {
@@ -46,9 +51,11 @@ registerBlockType( 'woocommerce/checkout-terms-and-conditions', {
 			default: termsAndConditions,
 		},
 	},
+	parent: [ 'woocommerce/checkout-place-order' ],
 	supports: {
 		className: false,
 		html: false,
+		inserter: false,
 		multiple: false,
 	},
 	edit: Edit,
