@@ -18,11 +18,17 @@ registerBlockType( 'woocommerce/checkout-cart', {
 		html: false,
 	},
 	edit() {
-		const { hasShippingEnabled, activeShippingMethods } = wc_checkout_block_data;
+		const {
+			hasShippingEnabled,
+			activeShippingMethods,
+		} = wc_checkout_block_data;
 
 		const methods = [];
-		Object.keys( activeShippingMethods ).forEach( method => {
-			methods.push( { label: activeShippingMethods[ method ].title, value: method } );
+		Object.keys( activeShippingMethods ).forEach( ( method ) => {
+			methods.push( {
+				label: activeShippingMethods[ method ].title,
+				value: method,
+			} );
 		} );
 
 		return (
@@ -37,7 +43,9 @@ registerBlockType( 'woocommerce/checkout-cart', {
 					</thead>
 					<tbody>
 						<tr>
-							<td>{ __( 'T-Shirt with Logo × 1', 'woo-gutenberg-products-block' ) }</td>
+							<td>
+								{ __( 'T-Shirt with Logo × 1', 'woo-gutenberg-products-block' ) }
+							</td>
 							<td>$4.00</td>
 						</tr>
 					</tbody>
@@ -48,16 +56,16 @@ registerBlockType( 'woocommerce/checkout-cart', {
 						</tr>
 
 						{ hasShippingEnabled && methods.length > 0 && (
-						<tr>
-							<th>{ __( 'Shipping', 'woo-gutenberg-products-block' ) }</th>
-							<td>
-								<RadioControl
-									options={ methods }
-									selected={ methods[0].value }
-									onChange={ () => null }
-								/>
-							</td>
-						</tr>
+							<tr>
+								<th>{ __( 'Shipping', 'woo-gutenberg-products-block' ) }</th>
+								<td>
+									<RadioControl
+										options={ methods }
+										selected={ methods[ 0 ].value }
+										onChange={ () => null }
+									/>
+								</td>
+							</tr>
 						) }
 
 						<tr>

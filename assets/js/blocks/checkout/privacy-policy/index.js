@@ -45,10 +45,6 @@ registerBlockType( 'woocommerce/checkout-privacy-policy', {
 	edit: Edit,
 	save( { attributes } ) {
 		const { content } = attributes;
-		return (
-			<RawHTML>
-				{ content }
-			</RawHTML>
-		);
+		return <RawHTML>{ content }</RawHTML>;
 	},
 } );
