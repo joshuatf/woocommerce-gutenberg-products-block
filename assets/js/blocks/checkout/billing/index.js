@@ -71,6 +71,6 @@ registerBlockType( 'woocommerce/billing', {
 		);
 	},
 	save() {
-		return null;
+		return <InnerBlocks.Content />;
 	},
 } );

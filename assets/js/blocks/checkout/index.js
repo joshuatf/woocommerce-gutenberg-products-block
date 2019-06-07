@@ -38,6 +38,6 @@ registerBlockType( 'woocommerce/checkout', {
 		);
 	},
 	save() {
-		return null;
+		return <InnerBlocks.Content />;
 	},
 } );
