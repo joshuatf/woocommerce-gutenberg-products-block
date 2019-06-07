@@ -662,7 +662,7 @@ class WGPB_Block_Library {
 				return;
 			}
 
-			$content = $blocks[0]['innerHTML'];
+			$content = trim( $blocks[0]['innerHTML'] );
 			update_option( 'woocommerce_checkout_privacy_policy_text', $content );
 		}
 	}
