@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { InspectorControls, RichText } from '@wordpress/editor';
-import { PanelBody } from '@wordpress/components';
+import { Notice, PanelBody } from '@wordpress/components';
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -38,6 +38,14 @@ class Edit extends Component {
 						/>
 					</PanelBody>
 				</InspectorControls>
+				{ ! pageId && (
+					<Notice status="info" isDismissible={ false }>
+						{ __(
+							'This block is hidden. Select a privacy policy page in the sidebar to show it.',
+							'woo-gutenberg-products-block'
+						) }
+					</Notice>
+				) }
 				<RichText
 					tagName="p"
 					onChange={ ( nextValues ) => setAttributes( { content: nextValues } ) }
