@@ -5,6 +5,11 @@ import { __ } from '@wordpress/i18n';
 import { TextareaControl } from '@wordpress/components';
 import { registerBlockType } from '@wordpress/blocks';
 
+/**
+ * Internal dependencies
+ */
+import './editor.scss';
+
 registerBlockType( 'woocommerce/checkout-order-comments', {
 	title: __( 'Checkout Order Comments', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
