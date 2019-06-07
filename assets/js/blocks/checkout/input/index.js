@@ -76,6 +76,15 @@ registerBlockType( 'woocommerce/checkout-input', {
 							</PanelBody>
 					</InspectorControls>
 				) }
+				<TextControl
+					className={ className }
+					disabled
+					label={ label }
+					type={ type }
+					value=""
+					onChange={ () => {} }
+					required={ isRequired }
+				/>
 			</Fragment>
 		);
 	},
