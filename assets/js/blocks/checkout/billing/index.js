@@ -13,8 +13,8 @@ import './editor.scss';
 const getFieldBlock = ( field, showRequiredAsterisk ) => {
 	const { shopCountry } = wc_checkout_block_data;
 	const className = Array.isArray( field.class ) ? field.class.join( ' ' ) : null;
-	const { label, placeholder, required, visible } = field;
-	const attributes = { className, label, placeholder, isRequired: required, isVisible: visible, showRequiredAsterisk };
+	const { label, placeholder, required, visible, autocomplete } = field;
+	const attributes = { className, label, placeholder, isRequired: required, isVisible: visible, showRequiredAsterisk, id: autocomplete };
 	const withSettings = [
 		'organization',
 		'address-line2',
@@ -46,10 +46,10 @@ const getFieldBlock = ( field, showRequiredAsterisk ) => {
 		case 'email':
 		case 'tel':
 		case 'text':
-			return [ 'woocommerce/checkout-input', { ...attributes, type: field.type, hasSettings: withSettings.includes( field.autocomplete ) } ];
+			return [ 'woocommerce/checkout-input', { ...attributes, type: field.type, hasSettings: withSettings.includes( attributes.id ) } ];
 
 		default:
-			return [ 'woocommerce/checkout-input', { ...attributes, type: 'text', hasSettings: withSettings.includes( field.autocomplete ) } ];
+			return [ 'woocommerce/checkout-input', { ...attributes, type: 'text', hasSettings: withSettings.includes( attributes.id ) } ];
 	}
 };
 

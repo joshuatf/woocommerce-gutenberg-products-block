@@ -16,6 +16,10 @@ registerBlockType( 'woocommerce/checkout-radio', {
 		inserter: false,
 	},
 	attributes: {
+		id: {
+			type: 'string',
+			default: '',
+		},
 		label: {
 			type: 'string',
 			default: '',

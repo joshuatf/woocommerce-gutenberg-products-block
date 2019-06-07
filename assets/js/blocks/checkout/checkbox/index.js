@@ -16,6 +16,10 @@ registerBlockType( 'woocommerce/checkout-checkbox', {
 		inserter: false,
 	},
 	attributes: {
+		id: {
+			type: 'string',
+			default: '',
+		},
 		heading: {
 			type: 'string',
 			default: '',

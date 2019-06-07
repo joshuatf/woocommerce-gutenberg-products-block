@@ -17,6 +17,10 @@ registerBlockType( 'woocommerce/checkout-input', {
 		inserter: false,
 	},
 	attributes: {
+		id: {
+			type: 'string',
+			default: '',
+		},
 		label: {
 			type: 'string',
 			default: '',

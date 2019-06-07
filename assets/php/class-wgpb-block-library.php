@@ -502,16 +502,16 @@ class WGPB_Block_Library {
 		uasort( $billing_fields, 'wc_checkout_fields_uasort_comparison' );
 
 		$checkout_settings = array(
-			'shopCountry'            => WC()->countries->countries[ WC()->countries->get_base_country() ],
-			'isUserShopManager'      => current_user_can( 'manage_woocommerce' ),
-			'hasCouponsEnabled'      => wc_coupons_enabled(),
-			'hasShippingEnabled'     => wc_get_shipping_method_count() > 0,
-			'activeShippingMethods'  => $active_methods,
-			'billingFields'          => $billing_fields,
-			'enabledPaymentGateways' => $enabled_payment_gateways,
-			'privacyPolicy'          => wc_get_privacy_policy_text( 'checkout' ),
-			'privacyPolicyId'        => wc_privacy_policy_page_id(),
-			'termsAndConditions'     => wc_get_terms_and_conditions_checkbox_text(),
+			'shopCountry'             => WC()->countries->countries[ WC()->countries->get_base_country() ],
+			'isUserShopManager'       => current_user_can( 'manage_woocommerce' ),
+			'hasCouponsEnabled'       => wc_coupons_enabled(),
+			'hasShippingEnabled'      => wc_get_shipping_method_count() > 0,
+			'activeShippingMethods'   => $active_methods,
+			'billingFields'           => $billing_fields,
+			'enabledPaymentGateways'  => $enabled_payment_gateways,
+			'privacyPolicy'           => wc_get_privacy_policy_text( 'checkout' ),
+			'privacyPolicyId'         => wc_privacy_policy_page_id(),
+			'termsAndConditions'      => wc_get_terms_and_conditions_checkbox_text(),
 			'highlightRequiredFields' => wc_string_to_bool( get_option( 'woocommerce_checkout_highlight_required_fields', 'yes' ) ),
 		);
 		?>
@@ -730,6 +730,68 @@ class WGPB_Block_Library {
 			if ( $toc_block ) {
 				$content = trim( $toc_block['innerHTML'] );
 				update_option( 'woocommerce_checkout_terms_and_conditions_checkbox_text', $content );
+			}
+
+			$company  = false;
+			$address2 = false;
+			$phone    = false;
+
+			$billing_blocks = self::find_block( $checkout_block['innerBlocks'], 'woocommerce/checkout-billing' );
+
+			if ( ! empty( $billing_blocks ) ) {
+				foreach ( $billing_blocks['innerBlocks'] as $block ) {
+					if ( ! array_key_exists( 'attrs', $block ) ) {
+						continue;
+					}
+
+					if ( array_key_exists( 'id', $block['attrs'] ) && 'organization' === $block['attrs']['id'] ) {
+						$company = $block['attrs'];
+					}
+
+					if ( array_key_exists( 'id', $block['attrs'] ) && 'address-level2' === $block['attrs']['id'] ) {
+						$address2 = $block['attrs'];
+					}
+
+					if ( array_key_exists( 'id', $block['attrs'] ) && 'tel' === $block['attrs']['id'] ) {
+						$phone = $block['attrs'];
+					}
+				}
+			}
+
+			if ( $company ) {
+				if ( array_key_exists( 'isVisible', $company ) && (bool) $company['isVisible'] ) {
+					if ( array_key_exists( 'isRequired', $company ) && (bool) $company['isRequired'] ) {
+						update_option( 'woocommerce_checkout_company_field', 'required' );
+					} else {
+						update_option( 'woocommerce_checkout_company_field', 'optional' );
+					}
+				} else {
+					update_option( 'woocommerce_checkout_company_field', 'hidden' );
+				}
+			}
+
+			if ( $address2 ) {
+				if ( array_key_exists( 'isVisible', $address2 ) && (bool) $address2['isVisible'] ) {
+					if ( array_key_exists( 'isRequired', $address2 ) && (bool) $address2['isRequired'] ) {
+						update_option( 'woocommerce_checkout_address_2_field', 'required' );
+					} else {
+						update_option( 'woocommerce_checkout_address_2_field', 'optional' );
+					}
+				} else {
+					update_option( 'woocommerce_checkout_address_2_field', 'hidden' );
+				}
+			}
+
+			if ( $phone ) {
+				if ( array_key_exists( 'isVisible', $phone ) && (bool) $phone['isVisible'] ) {
+					if ( array_key_exists( 'isRequired', $phone ) && (bool) $phone['isRequired'] ) {
+						update_option( 'woocommerce_checkout_phone_field', 'required' );
+					} else {
+						update_option( 'woocommerce_checkout_phone_field', 'optional' );
+					}
+				} else {
+					update_option( 'woocommerce_checkout_phone_field', 'hidden' );
+				}
 			}
 		}
 	}
