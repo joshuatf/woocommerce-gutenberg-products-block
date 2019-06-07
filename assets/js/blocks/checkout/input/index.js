@@ -3,7 +3,7 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
-import { TextControl, PanelBody, ToggleControl } from '@wordpress/components';
+import { TextControl, PanelBody, ToggleControl, Notice } from '@wordpress/components';
 import { InspectorControls } from '@wordpress/editor';
 import { Fragment } from '@wordpress/element';
 
@@ -39,12 +39,21 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'boolean',
 			default: false,
 		},
+		isVisible: {
+			type: 'boolean',
+			default: true,
+		},
 	},
 	edit( { attributes, setAttributes } ) {
 		const { className, label, type, hasSettings, isVisible, isRequired } = attributes;
 
 		return (
 			<Fragment>
+				{ Boolean( ! isVisible ) && (
+					<Notice status="info" isDismissible={ false }>
+						{ __( 'This block is hidden. Visibility can be adjusted in the block settings sidebar.', 'woo-gutenberg-products-block' ) }
+					</Notice>
+				) }
 				{ hasSettings && (
 					<InspectorControls key="inspector">
 							<PanelBody
@@ -67,15 +76,6 @@ registerBlockType( 'woocommerce/checkout-input', {
 							</PanelBody>
 					</InspectorControls>
 				) }
-				<TextControl
-					className={ className }
-					disabled
-					label={ label }
-					type={ type }
-					value=""
-					onChange={ () => {} }
-					required={ isRequired }
-				/>
 			</Fragment>
 		);
 	},
