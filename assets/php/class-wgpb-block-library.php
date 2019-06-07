@@ -723,6 +723,68 @@ class WGPB_Block_Library {
 				$content = trim( $toc_block['innerHTML'] );
 				update_option( 'woocommerce_checkout_terms_and_conditions_checkbox_text', $content );
 			}
+
+			$company  = false;
+			$address2 = false;
+			$phone    = false;
+
+			$billing_blocks = self::find_block( $checkout_block['innerBlocks'], 'woocommerce/checkout-billing' );
+
+			if ( ! empty( $billing_blocks ) ) {
+				foreach ( $billing_blocks['innerBlocks'] as $block ) {
+					if ( ! array_key_exists( 'attrs', $block ) ) {
+						continue;
+					}
+
+					if ( array_key_exists( 'id', $block['attrs'] ) && 'organization' === $block['attrs']['id'] ) {
+						$company = $block['attrs'];
+					}
+
+					if ( array_key_exists( 'id', $block['attrs'] ) && 'address-level2' === $block['attrs']['id'] ) {
+						$address2 = $block['attrs'];
+					}
+
+					if ( array_key_exists( 'id', $block['attrs'] ) && 'tel' === $block['attrs']['id'] ) {
+						$phone = $block['attrs'];
+					}
+				}
+			}
+
+			if ( $company ) {
+				if ( array_key_exists( 'isVisible', $company ) && (bool) $company['isVisible'] ) {
+					if ( array_key_exists( 'isRequired', $company ) && (bool) $company['isRequired'] ) {
+						update_option( 'woocommerce_checkout_company_field', 'required' );
+					} else {
+						update_option( 'woocommerce_checkout_company_field', 'optional' );
+					}
+				} else {
+					update_option( 'woocommerce_checkout_company_field', 'hidden' );
+				}
+			}
+
+			if ( $address2 ) {
+				if ( array_key_exists( 'isVisible', $address2 ) && (bool) $address2['isVisible'] ) {
+					if ( array_key_exists( 'isRequired', $address2 ) && (bool) $address2['isRequired'] ) {
+						update_option( 'woocommerce_checkout_address_2_field', 'required' );
+					} else {
+						update_option( 'woocommerce_checkout_address_2_field', 'optional' );
+					}
+				} else {
+					update_option( 'woocommerce_checkout_address_2_field', 'hidden' );
+				}
+			}
+
+			if ( $phone ) {
+				if ( array_key_exists( 'isVisible', $phone ) && (bool) $phone['isVisible'] ) {
+					if ( array_key_exists( 'isRequired', $phone ) && (bool) $phone['isRequired'] ) {
+						update_option( 'woocommerce_checkout_phone_field', 'required' );
+					} else {
+						update_option( 'woocommerce_checkout_phone_field', 'optional' );
+					}
+				} else {
+					update_option( 'woocommerce_checkout_phone_field', 'hidden' );
+				}
+			}
 		}
 	}
 
