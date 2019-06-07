@@ -32,6 +32,7 @@ registerBlockType( 'woocommerce/checkout', {
 					[ 'woocommerce/checkout-coupon' ],
 					[ 'woocommerce/checkout-billing' ],
 					[ 'woocommerce/checkout-cart' ],
+					[ 'woocommerce/checkout-privacy-policy' ],
 				] }
 				templateLock="all"
 			/>
