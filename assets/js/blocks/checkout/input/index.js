@@ -54,7 +54,7 @@ registerBlockType( 'woocommerce/checkout-input', {
 					</Notice>
 				) }
 				{ hasSettings && (
-				<InspectorControls key="inspector">
+					<InspectorControls key="inspector">
 						<PanelBody
 							title={ __( 'Field Settings', 'woo-gutenberg-products-block' ) }
 						>
