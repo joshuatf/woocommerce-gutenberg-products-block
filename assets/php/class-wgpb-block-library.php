@@ -699,33 +699,53 @@ class WGPB_Block_Library {
 			return;
 		}
 
-		if ( has_block( 'woocommerce/checkout-privacy-policy', $post ) ) {
+		if ( has_block( 'woocommerce/checkout', $post ) ) {
 			$blocks = wp_list_filter(
 				parse_blocks( $post->post_content ),
-				array( 'blockName' => 'woocommerce/checkout-privacy-policy' )
+				array( 'blockName' => 'woocommerce/checkout' )
 			);
 			if ( empty( $blocks ) ) {
 				return;
 			}
+			$checkout_block = reset( $blocks );
 
-			$content = trim( $blocks[0]['innerHTML'] );
-			$page_id = $blocks[0]['attrs']['privacyPolicyId'];
-			update_option( 'woocommerce_checkout_privacy_policy_text', $content );
-			update_option( 'wp_page_for_privacy_policy', $page_id );
-		}
+			$privacy_block = self::find_block( $checkout_block['innerBlocks'], 'woocommerce/checkout-privacy-policy' );
+			$toc_block     = self::find_block( $checkout_block['innerBlocks'], 'woocommerce/checkout-terms-and-conditions' );
 
-		if ( has_block( 'woocommerce/checkout-terms-and-conditions', $post ) ) {
-			$blocks = wp_list_filter(
-				parse_blocks( $post->post_content ),
-				array( 'blockName' => 'woocommerce/checkout-terms-and-conditions' )
-			);
-			if ( empty( $blocks ) ) {
-				return;
+			if ( $privacy_block ) {
+				$content = trim( $privacy_block['innerHTML'] );
+				$page_id = $privacy_block['attrs']['privacyPolicyId'];
+				update_option( 'woocommerce_checkout_privacy_policy_text', $content );
+				update_option( 'wp_page_for_privacy_policy', $page_id );
 			}
 
-			$content = trim( $blocks[0]['innerHTML'] );
-			update_option( 'woocommerce_checkout_terms_and_conditions_checkbox_text', $content );
+			if ( $toc_block ) {
+				$content = trim( $toc_block['innerHTML'] );
+				update_option( 'woocommerce_checkout_terms_and_conditions_checkbox_text', $content );
+			}
 		}
+	}
+
+	/**
+	 * Find a specific block regardless of innerBlocks nesting.
+	 *
+	 * @param array  $blocks     A list of blocks to search through, potentially with innerBlocks.
+	 * @param string $block_name Block type name to search for. When found, the block is returned.
+	 * @return array Associative array representing a block.
+	 */
+	public static function find_block( $blocks, $block_name ) {
+		foreach ( $blocks as $block ) {
+			if ( $block_name === $block['blockName'] ) {
+				return $block;
+			}
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$found_block = self::find_block( $block['innerBlocks'], $block_name );
+				if ( $found_block ) {
+					return $found_block;
+				}
+			}
+		}
+		return false;
 	}
 }
 
