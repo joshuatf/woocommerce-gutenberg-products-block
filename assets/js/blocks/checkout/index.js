@@ -17,6 +17,7 @@ import './order-button';
 import './privacy-policy';
 import './radio';
 import './select';
+import './terms';
 import './textarea';
 
 registerBlockType( 'woocommerce/checkout', {
