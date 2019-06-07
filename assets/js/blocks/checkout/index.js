@@ -35,7 +35,9 @@ registerBlockType( 'woocommerce/checkout', {
 	},
 	edit( { attributes, setAttributes } ) {
 		const { showRequiredAsterisk } = attributes;
-		const billingName = showRequiredAsterisk ? 'woocommerce/checkout-billing-with-asterisks' : 'woocommerce/checkout-billing';
+		const billingName = showRequiredAsterisk ?
+			'woocommerce/checkout-billing-with-asterisks' :
+			'woocommerce/checkout-billing';
 
 		return (
 			<Fragment>
@@ -52,9 +54,14 @@ registerBlockType( 'woocommerce/checkout', {
 				<InspectorControls key="inspector">
 					<PanelBody title={ __( 'Content', 'woo-gutenberg-products-block' ) }>
 						<ToggleControl
-							label={ __( 'Highlight required fields with an asterisk', 'woo-gutenberg-products-block' ) }
+							label={ __(
+								'Highlight required fields with an asterisk',
+								'woo-gutenberg-products-block'
+							) }
 							checked={ showRequiredAsterisk }
-							onChange={ () => setAttributes( { showRequiredAsterisk: ! showRequiredAsterisk } ) }
+							onChange={ () =>
+								setAttributes( { showRequiredAsterisk: ! showRequiredAsterisk } )
+							}
 						/>
 					</PanelBody>
 				</InspectorControls>
@@ -62,6 +69,11 @@ registerBlockType( 'woocommerce/checkout', {
 		);
 	},
 	save() {
-		return <InnerBlocks.Content />;
+		return (
+			<Fragment>
+				<InnerBlocks.Content />
+				[woocommerce_checkout]
+			</Fragment>
+		);
 	},
 } );
