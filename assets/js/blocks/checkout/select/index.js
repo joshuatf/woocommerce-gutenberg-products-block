@@ -13,7 +13,6 @@ registerBlockType( 'woocommerce/checkout-select', {
 	supports: {
 		html: false,
 		inserter: false,
-		multiple: false,
 	},
 	attributes: {
 		label: {

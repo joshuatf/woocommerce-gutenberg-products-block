@@ -14,7 +14,6 @@ registerBlockType( 'woocommerce/checkout-input', {
 	supports: {
 		html: false,
 		inserter: false,
-		multiple: false,
 	},
 	attributes: {
 		label: {

@@ -13,7 +13,6 @@ registerBlockType( 'woocommerce/checkout-textarea', {
 	supports: {
 		html: false,
 		inserter: false,
-		multiple: false,
 	},
 	attributes: {
 		label: {

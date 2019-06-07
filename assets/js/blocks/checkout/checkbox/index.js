@@ -13,7 +13,6 @@ registerBlockType( 'woocommerce/checkout-checkbox', {
 	supports: {
 		html: false,
 		inserter: false,
-		multiple: false,
 	},
 	attributes: {
 		heading: {
