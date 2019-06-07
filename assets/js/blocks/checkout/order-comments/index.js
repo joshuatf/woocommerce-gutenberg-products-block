@@ -19,7 +19,6 @@ registerBlockType( 'woocommerce/checkout-order-comments', {
 				disabled
 				label={ __( 'Order notes', 'woocommerce-admin' ) }
 				placeholder={ __( 'Notes about your order, e.g. special notes for delivery.', 'woocommerce-admin' ) }
-				checked={ false }
 				onChange={ () => {} }
 				required={ false }
 			/>
