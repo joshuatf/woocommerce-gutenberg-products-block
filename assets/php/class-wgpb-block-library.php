@@ -473,7 +473,8 @@ class WGPB_Block_Library {
 				'visible'      => 'hidden' !== get_option( 'woocommerce_checkout_company_field', 'optional' ),
 			),
 			'billing_address_2' => array(
-				'label'        => __( 'Apartment, suite, unit etc.', 'woo-gutenberg-products-block' ),
+				'label'        => '',
+				'placeholder'  => __( 'Apartment, suite, unit etc.', 'woo-gutenberg-products-block' ),
 				'class'        => array( 'form-row-wide', 'address-field' ),
 				'autocomplete' => 'address-line2',
 				'priority'     => 60,
