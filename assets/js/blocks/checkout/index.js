@@ -16,6 +16,7 @@ import './input';
 import './place-order';
 import './radio';
 import './select';
+import './shipping';
 import './textarea';
 
 registerBlockType( 'woocommerce/checkout', {
@@ -31,6 +32,7 @@ registerBlockType( 'woocommerce/checkout', {
 				template={ [
 					[ 'woocommerce/checkout-coupon' ],
 					[ 'woocommerce/checkout-billing' ],
+					[ 'woocommerce/checkout-shipping' ],
 					[ 'woocommerce/checkout-cart' ],
 					[ 'woocommerce/checkout-place-order' ],
 				] }
