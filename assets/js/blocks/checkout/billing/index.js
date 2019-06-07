@@ -5,6 +5,11 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/editor';
 
+/**
+ * Internal dependencies
+ */
+import './editor.scss';
+
 const getFieldBlock = ( field, showRequiredAsterisk ) => {
 	const { shopCountry } = wc_checkout_block_data;
 	const className = Array.isArray( field.class ) ? field.class.join( ' ' ) : null;

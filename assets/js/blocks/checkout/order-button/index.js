@@ -5,6 +5,11 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { Button } from '@wordpress/components';
 
+/**
+ * Internal dependencies
+ */
+import './editor.scss';
+
 registerBlockType( 'woocommerce/checkout-order-button', {
 	title: __( 'Checkout Place Order Button', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',

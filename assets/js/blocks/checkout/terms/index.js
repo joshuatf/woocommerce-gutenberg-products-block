@@ -7,6 +7,11 @@ import { Component, Fragment, RawHTML } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
 import { RichText } from '@wordpress/editor';
 
+/**
+ * Internal dependencies
+ */
+import './editor.scss';
+
 const { termsAndConditions } = wc_checkout_block_data;
 
 class Edit extends Component {

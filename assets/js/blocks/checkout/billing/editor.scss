@@ -1,0 +1,25 @@
+div[data-type="woocommerce/checkout-input"].editor-block-list__block,
+div[data-type="woocommerce/checkout-radio"].editor-block-list__block,
+div[data-type="woocommerce/checkout-textarea"].editor-block-list__block,
+div[data-type="woocommerce/checkout-select"].editor-block-list__block {
+	.editor-block-list__block-edit {
+		margin-top: 15px;
+		margin-bottom: 15px;
+
+		&::before {
+			top: -9px;
+			bottom: -9px;
+		}
+	}
+
+	.components-base-control__label {
+		font-size: 22px;
+	}
+
+	.components-text-control__input,
+	.components-select-control__input {
+		height: 50px;
+		box-sizing: border-box;
+		border: 1px solid #ccc;
+	}
+}
