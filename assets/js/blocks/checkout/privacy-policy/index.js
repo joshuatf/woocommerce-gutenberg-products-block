@@ -63,9 +63,11 @@ registerBlockType( 'woocommerce/checkout-privacy-policy', {
 			default: privacyPolicyId,
 		},
 	},
+	parent: [ 'woocommerce/checkout-place-order' ],
 	supports: {
 		className: false,
 		html: false,
+		inserter: false,
 		multiple: false,
 	},
 	edit: Edit,

@@ -10,8 +10,10 @@ registerBlockType( 'woocommerce/checkout-checkbox', {
 	title: __( 'Checkout Checkbox', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
+	parent: [ 'woocommerce/checkout-billing' ],
 	supports: {
 		html: false,
+		inserter: false,
 	},
 	attributes: {
 		heading: {

@@ -70,8 +70,11 @@ const blockConfiguration = {
 	title: __( 'Billing', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
+	parent: [ 'woocommerce/checkout' ],
 	supports: {
 		html: false,
+		inserter: false,
+		multiple: false,
 	},
 	attributes: {
 		showRequiredAsterisk: {

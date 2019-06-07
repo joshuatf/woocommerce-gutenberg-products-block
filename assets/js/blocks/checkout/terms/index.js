@@ -51,9 +51,11 @@ registerBlockType( 'woocommerce/checkout-terms-and-conditions', {
 			default: termsAndConditions,
 		},
 	},
+	parent: [ 'woocommerce/checkout-place-order' ],
 	supports: {
 		className: false,
 		html: false,
+		inserter: false,
 		multiple: false,
 	},
 	edit: Edit,
