@@ -39,10 +39,6 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'boolean',
 			default: false,
 		},
-		isVisible: {
-			type: 'boolean',
-			default: true,
-		},
 	},
 	edit( { attributes, setAttributes } ) {
 		const { className, label, type, hasSettings, isVisible, isRequired } = attributes;
