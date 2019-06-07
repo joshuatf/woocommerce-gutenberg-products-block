@@ -13,7 +13,7 @@ import './cart';
 import './checkbox';
 import './coupon';
 import './input';
-import './privacy-policy';
+import './place-order';
 import './radio';
 import './select';
 import './textarea';
@@ -32,7 +32,7 @@ registerBlockType( 'woocommerce/checkout', {
 					[ 'woocommerce/checkout-coupon' ],
 					[ 'woocommerce/checkout-billing' ],
 					[ 'woocommerce/checkout-cart' ],
-					[ 'woocommerce/checkout-privacy-policy' ],
+					[ 'woocommerce/checkout-place-order' ],
 				] }
 				templateLock="all"
 			/>

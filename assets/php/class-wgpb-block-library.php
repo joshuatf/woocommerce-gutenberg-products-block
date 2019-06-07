@@ -465,6 +465,7 @@ class WGPB_Block_Library {
 			'enabledPaymentGateways' => $enabled_payment_gateways,
 			'privacyPolicy'          => wc_get_privacy_policy_text( 'checkout' ),
 			'privacyPolicyId'        => wc_privacy_policy_page_id(),
+			'termsAndConditions'     => wc_get_terms_and_conditions_checkbox_text(),
 		);
 		?>
 		<script type="text/javascript">
@@ -667,6 +668,19 @@ class WGPB_Block_Library {
 			$page_id = $blocks[0]['attrs']['privacyPolicyId'];
 			update_option( 'woocommerce_checkout_privacy_policy_text', $content );
 			update_option( 'wp_page_for_privacy_policy', $page_id );
+		}
+
+		if ( has_block( 'woocommerce/checkout-terms-and-conditions', $post ) ) {
+			$blocks = wp_list_filter(
+				parse_blocks( $post->post_content ),
+				array( 'blockName' => 'woocommerce/checkout-terms-and-conditions' )
+			);
+			if ( empty( $blocks ) ) {
+				return;
+			}
+
+			$content = trim( $blocks[0]['innerHTML'] );
+			update_option( 'woocommerce_checkout_terms_and_conditions_checkbox_text', $content );
 		}
 	}
 }
