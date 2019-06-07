@@ -8,7 +8,7 @@ import { InnerBlocks } from '@wordpress/editor';
 const getFieldBlock = ( field ) => {
 	const className = Array.isArray( field.class ) ? field.class.join( ' ' ) : null;
 	const { label, required, visible } = field;
-	const attributes = { className, label, isRequired:required, isVisible:visible };
+	const attributes = { className, label, isRequired: required, isVisible: visible };
 	const withSettings = [
 		'organization',
 		'address-line2',
