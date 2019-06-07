@@ -13,6 +13,7 @@ import './cart';
 import './checkbox';
 import './coupon';
 import './input';
+import './privacy-policy';
 import './radio';
 import './select';
 import './textarea';
