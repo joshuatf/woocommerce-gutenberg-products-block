@@ -6,6 +6,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/editor';
 
 import '../order-button';
+import '../payment-options';
 import '../privacy-policy';
 import '../terms';
 
@@ -23,6 +24,7 @@ registerBlockType( 'woocommerce/checkout-place-order', {
 					[ 'woocommerce/checkout-privacy-policy' ],
 					[ 'woocommerce/checkout-terms-and-conditions' ],
 					[ 'woocommerce/checkout-order-button' ],
+					[ 'woocommerce/checkout-payment-options' ],
 				] }
 				templateLock="all"
 			/>

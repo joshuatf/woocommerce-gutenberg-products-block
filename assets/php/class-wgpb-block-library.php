@@ -456,6 +456,50 @@ class WGPB_Block_Library {
 		WC()->cart      = new WC_Cart();
 		$billing_fields = WC()->checkout->get_checkout_fields( 'billing' );
 
+		/**
+		 * NOTE: Currently, when these fields are set to "hidden" in the Customizer,
+		 * WooCommerce removes the fields from the array.
+		 *
+		 * This adds the fields back so that we can then control the settings on each
+		 * individual block.
+		 */
+		$hidden_fields = array(
+			'billing_company'   => array(
+				'label'        => __( 'Company name', 'woo-gutenberg-products-block' ),
+				'class'        => array( 'form-row-wide' ),
+				'autocomplete' => 'organization',
+				'priority'     => 30,
+				'required'     => 'required' === get_option( 'woocommerce_checkout_company_field', 'optional' ),
+				'visible'      => 'hidden' !== get_option( 'woocommerce_checkout_company_field', 'optional' ),
+			),
+			'billing_address_2' => array(
+				'label'        => __( 'Apartment, suite, unit etc.', 'woo-gutenberg-products-block' ),
+				'class'        => array( 'form-row-wide', 'address-field' ),
+				'autocomplete' => 'address-line2',
+				'priority'     => 60,
+				'required'     => 'required' === get_option( 'woocommerce_checkout_address_2_field', 'optional' ),
+				'visible'      => 'hidden' !== get_option( 'woocommerce_checkout_address_2_field', 'optional' ),
+			),
+			'billing_phone'     => array(
+				'label'        => __( 'Phone', 'woo-gutenberg-products-block' ),
+				'type'         => 'tel',
+				'class'        => array( 'form-row-wide' ),
+				'validate'     => array( 'phone' ),
+				'autocomplete' => 'tel',
+				'priority'     => 100,
+				'required'     => 'required' === get_option( 'woocommerce_checkout_phone_field', 'required' ),
+				'visible'      => 'hidden' !== get_option( 'woocommerce_checkout_phone_field', 'required' ),
+			),
+		);
+
+		foreach ( $hidden_fields as $id => $field ) {
+			if ( ! array_key_exists( $id, $billing_fields ) ) {
+				$billing_fields[ $id ] = $field;
+			}
+		}
+
+		uasort( $billing_fields, 'wc_checkout_fields_uasort_comparison' );
+
 		$checkout_settings = array(
 			'isUserShopManager'       => current_user_can( 'manage_woocommerce' ),
 			'hasCouponsEnabled'       => wc_coupons_enabled(),
@@ -656,33 +700,53 @@ class WGPB_Block_Library {
 			return;
 		}
 
-		if ( has_block( 'woocommerce/checkout-privacy-policy', $post ) ) {
+		if ( has_block( 'woocommerce/checkout', $post ) ) {
 			$blocks = wp_list_filter(
 				parse_blocks( $post->post_content ),
-				array( 'blockName' => 'woocommerce/checkout-privacy-policy' )
+				array( 'blockName' => 'woocommerce/checkout' )
 			);
 			if ( empty( $blocks ) ) {
 				return;
 			}
+			$checkout_block = reset( $blocks );
 
-			$content = trim( $blocks[0]['innerHTML'] );
-			$page_id = $blocks[0]['attrs']['privacyPolicyId'];
-			update_option( 'woocommerce_checkout_privacy_policy_text', $content );
-			update_option( 'wp_page_for_privacy_policy', $page_id );
-		}
+			$privacy_block = self::find_block( $checkout_block['innerBlocks'], 'woocommerce/checkout-privacy-policy' );
+			$toc_block     = self::find_block( $checkout_block['innerBlocks'], 'woocommerce/checkout-terms-and-conditions' );
 
-		if ( has_block( 'woocommerce/checkout-terms-and-conditions', $post ) ) {
-			$blocks = wp_list_filter(
-				parse_blocks( $post->post_content ),
-				array( 'blockName' => 'woocommerce/checkout-terms-and-conditions' )
-			);
-			if ( empty( $blocks ) ) {
-				return;
+			if ( $privacy_block ) {
+				$content = trim( $privacy_block['innerHTML'] );
+				$page_id = $privacy_block['attrs']['privacyPolicyId'];
+				update_option( 'woocommerce_checkout_privacy_policy_text', $content );
+				update_option( 'wp_page_for_privacy_policy', $page_id );
 			}
 
-			$content = trim( $blocks[0]['innerHTML'] );
-			update_option( 'woocommerce_checkout_terms_and_conditions_checkbox_text', $content );
+			if ( $toc_block ) {
+				$content = trim( $toc_block['innerHTML'] );
+				update_option( 'woocommerce_checkout_terms_and_conditions_checkbox_text', $content );
+			}
 		}
+	}
+
+	/**
+	 * Find a specific block regardless of innerBlocks nesting.
+	 *
+	 * @param array  $blocks     A list of blocks to search through, potentially with innerBlocks.
+	 * @param string $block_name Block type name to search for. When found, the block is returned.
+	 * @return array Associative array representing a block.
+	 */
+	public static function find_block( $blocks, $block_name ) {
+		foreach ( $blocks as $block ) {
+			if ( $block_name === $block['blockName'] ) {
+				return $block;
+			}
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$found_block = self::find_block( $block['innerBlocks'], $block_name );
+				if ( $found_block ) {
+					return $found_block;
+				}
+			}
+		}
+		return false;
 	}
 }
 

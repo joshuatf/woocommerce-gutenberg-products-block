@@ -3,8 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
+import { TextControl, PanelBody, ToggleControl, Notice } from '@wordpress/components';
+import { InspectorControls } from '@wordpress/editor';
 import { Fragment } from '@wordpress/element';
-import { Notice, TextControl } from '@wordpress/components';
 
 registerBlockType( 'woocommerce/checkout-input', {
 	title: __( 'Checkout Input', 'woo-gutenberg-products-block' ),
@@ -26,11 +27,11 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'string',
 			default: '',
 		},
-		isRequired: {
+		showRequiredAsterisk: {
 			type: 'boolean',
 			default: false,
 		},
-		showRequiredAsterisk: {
+		hasSettings: {
 			type: 'boolean',
 			default: false,
 		},
@@ -38,9 +39,13 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'boolean',
 			default: true,
 		},
+		isRequired: {
+			type: 'boolean',
+			default: false,
+		},
 	},
-	edit( { attributes } ) {
-		const { className, label, type, isVisible, isRequired, showRequiredAsterisk } = attributes;
+	edit( { attributes, setAttributes } ) {
+		const { className, label, type, hasSettings, isVisible, isRequired, showRequiredAsterisk } = attributes;
 
 		const formattedLabel = showRequiredAsterisk && isRequired ? (
 			<Fragment>
@@ -58,6 +63,28 @@ registerBlockType( 'woocommerce/checkout-input', {
 							'woo-gutenberg-products-block'
 						) }
 					</Notice>
+				) }
+				{ hasSettings && (
+					<InspectorControls key="inspector">
+						<PanelBody
+							title={ __( 'Field Settings', 'woo-gutenberg-products-block' ) }
+						>
+							<ToggleControl
+								label={ __( 'Visibility', 'woo-gutenberg-products-block' ) }
+								help={ isVisible ? __( 'This field is visible.', 'woo-gutenberg-products-block' ) : __( 'This field is hidden.', 'woo-gutenberg-products-block' ) }
+								checked={ isVisible }
+								onChange={ ( nextValue ) => setAttributes( { isVisible: nextValue } ) }
+							/>
+							{ isVisible && (
+								<ToggleControl
+									label={ __( 'Required', 'woo-gutenberg-products-block' ) }
+									help={ isRequired ? __( 'This field is required.', 'woo-gutenberg-products-block' ) : __( 'This field is optional.', 'woo-gutenberg-products-block' ) }
+									checked={ isRequired }
+									onChange={ ( nextValue ) => setAttributes( { isRequired: nextValue } ) }
+								/>
+							) }
+						</PanelBody>
+					</InspectorControls>
 				) }
 				<TextControl
 					className={ className }
