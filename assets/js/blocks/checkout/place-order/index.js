@@ -10,7 +10,6 @@ import { InnerBlocks } from '@wordpress/editor';
  */
 import './editor.scss';
 import '../order-button';
-import '../payment-options';
 import '../privacy-policy';
 import '../terms';
 
@@ -26,15 +25,16 @@ registerBlockType( 'woocommerce/checkout-place-order', {
 	},
 	edit() {
 		return (
-			<InnerBlocks
-				template={ [
-					[ 'woocommerce/checkout-privacy-policy' ],
-					[ 'woocommerce/checkout-terms-and-conditions' ],
-					[ 'woocommerce/checkout-order-button' ],
-					[ 'woocommerce/checkout-payment-options' ],
-				] }
-				templateLock="all"
-			/>
+			<div className="wc-checkout__place-order">
+				<InnerBlocks
+					template={ [
+						[ 'woocommerce/checkout-privacy-policy' ],
+						[ 'woocommerce/checkout-terms-and-conditions' ],
+						[ 'woocommerce/checkout-order-button' ],
+					] }
+					templateLock="all"
+				/>
+			</div>
 		);
 	},
 	save() {

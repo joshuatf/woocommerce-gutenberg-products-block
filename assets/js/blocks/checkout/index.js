@@ -16,6 +16,7 @@ import './checkbox';
 import './coupon';
 import './input';
 import './order-comments';
+import './payment-options';
 import './place-order';
 import './radio';
 import './select';
@@ -51,6 +52,7 @@ registerBlockType( 'woocommerce/checkout', {
 						[ 'woocommerce/checkout-shipping' ],
 						[ 'woocommerce/checkout-order-comments' ],
 						[ 'woocommerce/checkout-cart' ],
+						[ 'woocommerce/checkout-payment-options' ],
 						[ 'woocommerce/checkout-place-order' ],
 					] }
 					templateInsertUpdatesSelection={ false }

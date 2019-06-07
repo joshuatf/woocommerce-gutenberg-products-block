@@ -1,0 +1,14 @@
+.wc-checkout__payment-method {
+	list-style: none;
+	padding: $gap;
+}
+
+.wc-checkout__payment-box {
+	margin-top: $gap-small;
+}
+
+.wc-checkout__payment-box p {
+	background: #f5f5f5;
+	padding: $gap $gap-large;
+	margin: 0;
+}
