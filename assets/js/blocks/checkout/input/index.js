@@ -43,10 +43,6 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'boolean',
 			default: false,
 		},
-		isVisible: {
-			type: 'boolean',
-			default: true,
-		},
 	},
 	edit( { attributes, setAttributes } ) {
 		const { className, label, placeholder, type, hasSettings, isVisible, isRequired } = attributes;
@@ -55,29 +51,32 @@ registerBlockType( 'woocommerce/checkout-input', {
 			<Fragment>
 				{ Boolean( ! isVisible ) && (
 					<Notice status="info" isDismissible={ false }>
-						{ __( 'This block is hidden. Visibility can be adjusted in the block settings sidebar.', 'woo-gutenberg-products-block' ) }
+						{ __(
+							'This block is hidden. Visibility can be adjusted in the block settings sidebar.',
+							'woo-gutenberg-products-block'
+						) }
 					</Notice>
 				) }
 				{ hasSettings && (
 					<InspectorControls key="inspector">
-							<PanelBody
-								title={ __( 'Field Settings', 'woo-gutenberg-products-block' ) }
-							>
+						<PanelBody
+							title={ __( 'Field Settings', 'woo-gutenberg-products-block' ) }
+						>
+							<ToggleControl
+								label={ __( 'Visibility', 'woo-gutenberg-products-block' ) }
+								help={ isVisible ? __( 'This field is visible.', 'woo-gutenberg-products-block' ) : __( 'This field is hidden.', 'woo-gutenberg-products-block' ) }
+								checked={ isVisible }
+								onChange={ ( nextValue ) => setAttributes( { isVisible: nextValue } ) }
+							/>
+							{ isVisible && (
 								<ToggleControl
-									label={ __( 'Visibility', 'woo-gutenberg-products-block' ) }
-									help={ isVisible ? __( 'This field is visible.', 'woo-gutenberg-products-block' ) : __( 'This field is hidden.', 'woo-gutenberg-products-block' ) }
-									checked={ isVisible }
-									onChange={ ( nextValue ) => setAttributes( { isVisible: nextValue } ) }
+									label={ __( 'Required', 'woo-gutenberg-products-block' ) }
+									help={ isRequired ? __( 'This field is required.', 'woo-gutenberg-products-block' ) : __( 'This field is optional.', 'woo-gutenberg-products-block' ) }
+									checked={ isRequired }
+									onChange={ ( nextValue ) => setAttributes( { isRequired: nextValue } ) }
 								/>
-								{ isVisible && (
-									<ToggleControl
-										label={ __( 'Required', 'woo-gutenberg-products-block' ) }
-										help={ isRequired ? __( 'This field is required.', 'woo-gutenberg-products-block' ) : __( 'This field is optional.', 'woo-gutenberg-products-block' ) }
-										checked={ isRequired }
-										onChange={ ( nextValue ) => setAttributes( { isRequired: nextValue } ) }
-									/>
-								) }
-							</PanelBody>
+							) }
+						</PanelBody>
 					</InspectorControls>
 				) }
 				<TextControl

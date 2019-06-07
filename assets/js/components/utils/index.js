@@ -43,3 +43,21 @@ export const getProducts = ( { selected = [], search } ) => {
 		return uniqBy( flatten( data ), 'id' );
 	} );
 };
+
+/**
+ * Get a promise that resolves to a list of pages from the API.
+ *
+ * @param {object} - A query object with the list of selected pages and search term.
+ */
+export const getPages = ( { search = '' } ) => {
+	const path = addQueryArgs( '/wp/v2/pages', {
+		per_page: -1,
+		status: 'publish',
+		search,
+	} );
+
+	return apiFetch( { path } ).then( ( data ) => {
+		const pages = uniqBy( flatten( data ), 'id' );
+		return pages.map( ( p ) => ( { id: p.id, name: p.title.rendered } ) );
+	} );
+};
