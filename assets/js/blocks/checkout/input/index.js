@@ -51,26 +51,26 @@ registerBlockType( 'woocommerce/checkout-input', {
 					</Notice>
 				) }
 				{ hasSettings && (
-					<InspectorControls key="inspector">
-							<PanelBody
-								title={ __( 'Field Settings', 'woo-gutenberg-products-block' ) }
-							>
+				<InspectorControls key="inspector">
+						<PanelBody
+							title={ __( 'Field Settings', 'woo-gutenberg-products-block' ) }
+						>
+							<ToggleControl
+								label={ __( 'Visibility', 'woo-gutenberg-products-block' ) }
+								help={ isVisible ? __( 'This field is visible.', 'woo-gutenberg-products-block' ) : __( 'This field is hidden.', 'woo-gutenberg-products-block' ) }
+								checked={ isVisible }
+								onChange={ ( nextValue ) => setAttributes( { isVisible: nextValue } ) }
+							/>
+							{ isVisible && (
 								<ToggleControl
-									label={ __( 'Visibility', 'woo-gutenberg-products-block' ) }
-									help={ isVisible ? __( 'This field is visible.', 'woo-gutenberg-products-block' ) : __( 'This field is hidden.', 'woo-gutenberg-products-block' ) }
-									checked={ isVisible }
-									onChange={ ( nextValue ) => setAttributes( { isVisible: nextValue } ) }
+									label={ __( 'Required', 'woo-gutenberg-products-block' ) }
+									help={ isRequired ? __( 'This field is required.', 'woo-gutenberg-products-block' ) : __( 'This field is optional.', 'woo-gutenberg-products-block' ) }
+									checked={ isRequired }
+									onChange={ ( nextValue ) => setAttributes( { isRequired: nextValue } ) }
 								/>
-								{ isVisible && (
-									<ToggleControl
-										label={ __( 'Required', 'woo-gutenberg-products-block' ) }
-										help={ isRequired ? __( 'This field is required.', 'woo-gutenberg-products-block' ) : __( 'This field is optional.', 'woo-gutenberg-products-block' ) }
-										checked={ isRequired }
-										onChange={ ( nextValue ) => setAttributes( { isRequired: nextValue } ) }
-									/>
-								) }
-							</PanelBody>
-					</InspectorControls>
+							) }
+						</PanelBody>
+				</InspectorControls>
 				) }
 				<TextControl
 					className={ className }
