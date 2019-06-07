@@ -15,9 +15,11 @@ import './cart';
 import './checkbox';
 import './coupon';
 import './input';
+import './order-comments';
 import './place-order';
 import './radio';
 import './select';
+import './shipping';
 import './textarea';
 
 registerBlockType( 'woocommerce/checkout', {
@@ -46,6 +48,8 @@ registerBlockType( 'woocommerce/checkout', {
 					template={ [
 						[ 'woocommerce/checkout-coupon' ],
 						[ billingName, { showRequiredAsterisk } ],
+						[ 'woocommerce/checkout-shipping' ],
+						[ 'woocommerce/checkout-order-comments' ],
 						[ 'woocommerce/checkout-cart' ],
 						[ 'woocommerce/checkout-place-order' ],
 					] }

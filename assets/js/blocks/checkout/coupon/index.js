@@ -21,7 +21,9 @@ registerBlockType( 'woocommerce/checkout-coupon', {
 		multiple: false,
 	},
 	edit() {
-		return (
+		const { hasCouponsEnabled } = wc_checkout_block_data;
+
+		return hasCouponsEnabled && (
 			<div className="wc-checkout__coupon">
 				{ interpolateComponents( {
 					mixedString: __(
