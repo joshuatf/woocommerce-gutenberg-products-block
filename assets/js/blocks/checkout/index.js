@@ -13,6 +13,7 @@ import './cart';
 import './checkbox';
 import './coupon';
 import './input';
+import './order-comments';
 import './place-order';
 import './radio';
 import './select';
@@ -33,6 +34,7 @@ registerBlockType( 'woocommerce/checkout', {
 					[ 'woocommerce/checkout-coupon' ],
 					[ 'woocommerce/checkout-billing' ],
 					[ 'woocommerce/checkout-shipping' ],
+					[ 'woocommerce/checkout-order-comments' ],
 					[ 'woocommerce/checkout-cart' ],
 					[ 'woocommerce/checkout-place-order' ],
 				] }
