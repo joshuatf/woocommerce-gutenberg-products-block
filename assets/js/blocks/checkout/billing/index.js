@@ -5,16 +5,15 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/editor';
 
-const { shopCountry } = wc_checkout_block_data;
-
-const getFieldBlock = ( field ) => {
+const getFieldBlock = ( field, showRequiredAsterisk ) => {
+	const { shopCountry } = wc_checkout_block_data;
 	const className = Array.isArray( field.class ) ? field.class.join( ' ' ) : null;
 	const { label, placeholder, required, visible } = field;
-	const attributes = { className, label, placeholder, isRequired: required, isVisible: visible };
+	const attributes = { className, label, placeholder, isRequired: required, isVisible: visible, showRequiredAsterisk };
 	const withSettings = [
 		'organization',
 		'address-line2',
-		'tel'
+		'tel',
 	];
 
 	switch ( field.type ) {
@@ -49,7 +48,7 @@ const getFieldBlock = ( field ) => {
 	}
 };
 
-const getFieldBlocks = () => {
+const getFieldBlocks = ( showRequiredAsterisk ) => {
 	if (
 		'object' !== typeof wc_checkout_block_data ||
 		'object' !== typeof wc_checkout_block_data.billingFields
@@ -58,18 +57,26 @@ const getFieldBlocks = () => {
 	}
 
 	return Object.values( wc_checkout_block_data.billingFields ).map( ( field ) =>
-		getFieldBlock( field )
+		getFieldBlock( field, showRequiredAsterisk )
 	);
 };
 
-registerBlockType( 'woocommerce/checkout-billing', {
+const blockConfiguration = {
 	title: __( 'Billing', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	supports: {
 		html: false,
 	},
-	edit() {
+	attributes: {
+		showRequiredAsterisk: {
+			type: 'boolean',
+			default: false,
+		},
+	},
+	edit( { attributes } ) {
+		const { showRequiredAsterisk } = attributes;
+
 		return (
 			<InnerBlocks
 				template={ [
@@ -80,7 +87,7 @@ registerBlockType( 'woocommerce/checkout-billing', {
 							level: 3,
 						},
 					],
-					...getFieldBlocks(),
+					...getFieldBlocks( showRequiredAsterisk ),
 				] }
 				templateLock="all"
 			/>
@@ -89,4 +96,8 @@ registerBlockType( 'woocommerce/checkout-billing', {
 	save() {
 		return <InnerBlocks.Content />;
 	},
-} );
+};
+
+registerBlockType( 'woocommerce/checkout-billing', blockConfiguration );
+
+registerBlockType( 'woocommerce/checkout-billing-with-asterisks', blockConfiguration );

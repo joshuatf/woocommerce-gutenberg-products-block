@@ -512,6 +512,7 @@ class WGPB_Block_Library {
 			'privacyPolicy'          => wc_get_privacy_policy_text( 'checkout' ),
 			'privacyPolicyId'        => wc_privacy_policy_page_id(),
 			'termsAndConditions'     => wc_get_terms_and_conditions_checkbox_text(),
+			'highlightRequiredFields' => wc_string_to_bool( get_option( 'woocommerce_checkout_highlight_required_fields', 'yes' ) ),
 		);
 		?>
 		<script type="text/javascript">

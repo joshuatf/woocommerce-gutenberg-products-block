@@ -4,9 +4,10 @@
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { CheckboxControl } from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
 
 registerBlockType( 'woocommerce/checkout-checkbox', {
-	title: __( 'Checkout checkbox', 'woo-gutenberg-products-block' ),
+	title: __( 'Checkout Checkbox', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	supports: {
@@ -25,23 +26,34 @@ registerBlockType( 'woocommerce/checkout-checkbox', {
 			type: 'string',
 			default: '',
 		},
-		required: {
+		isRequired: {
+			type: 'boolean',
+			default: false,
+		},
+		showRequiredAsterisk: {
 			type: 'boolean',
 			default: false,
 		},
 	},
 	edit( { attributes } ) {
-		const { className, heading, label, required } = attributes;
+		const { className, heading, label, isRequired, showRequiredAsterisk } = attributes;
+
+		const formattedLabel = showRequiredAsterisk && isRequired ? (
+			<Fragment>
+				{ label }
+				<abbr className="required" title="required">*</abbr>
+			</Fragment>
+		) : label;
 
 		return (
 			<CheckboxControl
 				classNames={ className }
 				disabled
 				heading={ heading }
-				label={ label }
+				label={ formattedLabel }
 				checked={ false }
 				onChange={ () => {} }
-				required={ required }
+				required={ isRequired }
 			/>
 		);
 	},
