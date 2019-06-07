@@ -30,7 +30,7 @@ registerBlockType( 'woocommerce/checkout', {
 			<InnerBlocks
 				template={ [
 					[ 'woocommerce/checkout-coupon' ],
-					[ 'woocommerce/billing' ],
+					[ 'woocommerce/checkout-billing' ],
 					[ 'woocommerce/checkout-cart' ],
 				] }
 				templateLock="all"

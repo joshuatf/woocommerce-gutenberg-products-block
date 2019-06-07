@@ -56,7 +56,7 @@ const getFieldBlocks = () => {
 	);
 };
 
-registerBlockType( 'woocommerce/billing', {
+registerBlockType( 'woocommerce/checkout-billing', {
 	title: __( 'Billing', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
