@@ -5,10 +5,10 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/editor';
 
-const getFieldBlock = ( field ) => {
+const getFieldBlock = ( field, showRequiredAsterisk ) => {
 	const className = Array.isArray( field.class ) ? field.class.join( ' ' ) : null;
 	const { label, required } = field;
-	const attributes = { className, label, required };
+	const attributes = { className, label, isRequired: required, showRequiredAsterisk };
 
 	switch ( field.type ) {
 		case 'textarea':
@@ -43,7 +43,7 @@ const getFieldBlock = ( field ) => {
 	}
 };
 
-const getFieldBlocks = () => {
+const getFieldBlocks = ( showRequiredAsterisk ) => {
 	if (
 		'object' !== typeof wc_checkout_block_data ||
 		'object' !== typeof wc_checkout_block_data.billingFields
@@ -52,18 +52,26 @@ const getFieldBlocks = () => {
 	}
 
 	return Object.values( wc_checkout_block_data.billingFields ).map( ( field ) =>
-		getFieldBlock( field )
+		getFieldBlock( field, showRequiredAsterisk )
 	);
 };
 
-registerBlockType( 'woocommerce/checkout-billing', {
+const blockConfiguration = {
 	title: __( 'Billing', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	supports: {
 		html: false,
 	},
-	edit() {
+	attributes: {
+		showRequiredAsterisk: {
+			type: 'boolean',
+			default: false,
+		},
+	},
+	edit( { attributes } ) {
+		const { showRequiredAsterisk } = attributes;
+
 		return (
 			<InnerBlocks
 				template={ [
@@ -74,7 +82,7 @@ registerBlockType( 'woocommerce/checkout-billing', {
 							level: 3,
 						},
 					],
-					...getFieldBlocks(),
+					...getFieldBlocks( showRequiredAsterisk ),
 				] }
 				templateLock="all"
 			/>
@@ -83,4 +91,8 @@ registerBlockType( 'woocommerce/checkout-billing', {
 	save() {
 		return <InnerBlocks.Content />;
 	},
-} );
+};
+
+registerBlockType( 'woocommerce/checkout-billing', blockConfiguration );
+
+registerBlockType( 'woocommerce/checkout-billing-with-asterisks', blockConfiguration );

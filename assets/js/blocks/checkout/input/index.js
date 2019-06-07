@@ -26,7 +26,11 @@ registerBlockType( 'woocommerce/checkout-input', {
 			type: 'string',
 			default: '',
 		},
-		required: {
+		isRequired: {
+			type: 'boolean',
+			default: false,
+		},
+		showRequiredAsterisk: {
 			type: 'boolean',
 			default: false,
 		},
@@ -36,7 +40,14 @@ registerBlockType( 'woocommerce/checkout-input', {
 		},
 	},
 	edit( { attributes } ) {
-		const { className, isVisible, label, required, type } = attributes;
+		const { className, label, type, isVisible, isRequired, showRequiredAsterisk } = attributes;
+
+		const formattedLabel = showRequiredAsterisk && isRequired ? (
+			<Fragment>
+				{ label + ' ' }
+				<abbr className="required" title="required">*</abbr>
+			</Fragment>
+		) : label;
 
 		return (
 			<Fragment>
@@ -51,11 +62,11 @@ registerBlockType( 'woocommerce/checkout-input', {
 				<TextControl
 					className={ className }
 					disabled
-					label={ label }
+					label={ formattedLabel }
 					type={ type }
 					value=""
 					onChange={ () => {} }
-					required={ required }
+					required={ isRequired }
 				/>
 			</Fragment>
 		);
