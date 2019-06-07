@@ -13,6 +13,10 @@ registerBlockType( 'woocommerce/checkout-textarea', {
 		html: false,
 	},
 	attributes: {
+		id: {
+			type: 'string',
+			default: '',
+		},
 		label: {
 			type: 'string',
 			default: '',

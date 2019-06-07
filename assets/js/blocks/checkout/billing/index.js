@@ -7,8 +7,8 @@ import { InnerBlocks } from '@wordpress/editor';
 
 const getFieldBlock = ( field ) => {
 	const className = Array.isArray( field.class ) ? field.class.join( ' ' ) : null;
-	const { label, required, visible } = field;
-	const attributes = { className, label, isRequired: required, isVisible: visible };
+	const { label, required, visible, autocomplete } = field;
+	const attributes = { className, label, isRequired: required, isVisible: visible, id: autocomplete };
 	const withSettings = [
 		'organization',
 		'address-line2',
@@ -38,10 +38,10 @@ const getFieldBlock = ( field ) => {
 		case 'email':
 		case 'tel':
 		case 'text':
-			return [ 'woocommerce/checkout-input', { ...attributes, type: field.type, hasSettings: withSettings.includes( field.autocomplete ) } ];
+			return [ 'woocommerce/checkout-input', { ...attributes, type: field.type, hasSettings: withSettings.includes( attributes.id ) } ];
 
 		default:
-			return [ 'woocommerce/checkout-input', { ...attributes, type: 'text', hasSettings: withSettings.includes( field.autocomplete ) } ];
+			return [ 'woocommerce/checkout-input', { ...attributes, type: 'text', hasSettings: withSettings.includes( attributes.id ) } ];
 	}
 };
 
