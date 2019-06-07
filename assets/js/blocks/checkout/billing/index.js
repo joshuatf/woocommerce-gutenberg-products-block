@@ -39,7 +39,7 @@ const getFieldBlock = ( field ) => {
 			return [ 'woocommerce/checkout-input', { ...attributes, ...{ type: field.type, hasSettings: withSettings.includes( field.autocomplete ) } } ];
 
 		default:
-			return [ 'woocommerce/checkout-input', { ...attributes, ...{ type: 'text', hasSettings: withSettings.includes( field.autocomplete ) } } ];
+			return [ 'woocommerce/checkout-input', { ...attributes, type: 'text', hasSettings: withSettings.includes( field.autocomplete ) } ];
 	}
 };
 
