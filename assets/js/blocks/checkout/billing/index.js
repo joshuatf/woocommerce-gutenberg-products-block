@@ -7,8 +7,13 @@ import { InnerBlocks } from '@wordpress/editor';
 
 const getFieldBlock = ( field ) => {
 	const className = Array.isArray( field.class ) ? field.class.join( ' ' ) : null;
-	const { label, required } = field;
-	const attributes = { className, label, required };
+	const { label, required, visible } = field;
+	const attributes = { className, label, isRequired: required, isVisible: visible };
+	const withSettings = [
+		'organization',
+		'address-line2',
+		'tel'
+	];
 
 	switch ( field.type ) {
 		case 'textarea':
@@ -33,13 +38,10 @@ const getFieldBlock = ( field ) => {
 		case 'email':
 		case 'tel':
 		case 'text':
-			return [
-				'woocommerce/checkout-input',
-				{ ...attributes, type: field.type },
-			];
+			return [ 'woocommerce/checkout-input', { ...attributes, type: field.type, hasSettings: withSettings.includes( field.autocomplete ) } ];
 
 		default:
-			return [ 'woocommerce/checkout-input', { ...attributes, type: 'text' } ];
+			return [ 'woocommerce/checkout-input', { ...attributes, type: 'text', hasSettings: withSettings.includes( field.autocomplete ) } ];
 	}
 };
 

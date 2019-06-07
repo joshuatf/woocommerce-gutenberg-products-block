@@ -456,6 +456,50 @@ class WGPB_Block_Library {
 		WC()->cart      = new WC_Cart();
 		$billing_fields = WC()->checkout->get_checkout_fields( 'billing' );
 
+		/**
+		 * NOTE: Currently, when these fields are set to "hidden" in the Customizer,
+		 * WooCommerce removes the fields from the array.
+		 *
+		 * This adds the fields back so that we can then control the settings on each
+		 * individual block.
+		 */
+		$hidden_fields = array(
+			'billing_company'   => array(
+				'label'        => __( 'Company name', 'woo-gutenberg-products-block' ),
+				'class'        => array( 'form-row-wide' ),
+				'autocomplete' => 'organization',
+				'priority'     => 30,
+				'required'     => 'required' === get_option( 'woocommerce_checkout_company_field', 'optional' ),
+				'visible'      => 'hidden' !== get_option( 'woocommerce_checkout_company_field', 'optional' ),
+			),
+			'billing_address_2' => array(
+				'label'        => __( 'Apartment, suite, unit etc.', 'woo-gutenberg-products-block' ),
+				'class'        => array( 'form-row-wide', 'address-field' ),
+				'autocomplete' => 'address-line2',
+				'priority'     => 60,
+				'required'     => 'required' === get_option( 'woocommerce_checkout_address_2_field', 'optional' ),
+				'visible'      => 'hidden' !== get_option( 'woocommerce_checkout_address_2_field', 'optional' ),
+			),
+			'billing_phone'     => array(
+				'label'        => __( 'Phone', 'woo-gutenberg-products-block' ),
+				'type'         => 'tel',
+				'class'        => array( 'form-row-wide' ),
+				'validate'     => array( 'phone' ),
+				'autocomplete' => 'tel',
+				'priority'     => 100,
+				'required'     => 'required' === get_option( 'woocommerce_checkout_phone_field', 'required' ),
+				'visible'      => 'hidden' !== get_option( 'woocommerce_checkout_phone_field', 'required' ),
+			),
+		);
+
+		foreach ( $hidden_fields as $id => $field ) {
+			if ( ! array_key_exists( $id, $billing_fields ) ) {
+				$billing_fields[ $id ] = $field;
+			}
+		}
+
+		uasort( $billing_fields, 'wc_checkout_fields_uasort_comparison' );
+
 		$checkout_settings = array(
 			'isUserShopManager'      => current_user_can( 'manage_woocommerce' ),
 			'hasCouponsEnabled'      => wc_coupons_enabled(),
