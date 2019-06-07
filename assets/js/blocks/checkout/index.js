@@ -13,7 +13,6 @@ import './cart';
 import './checkbox';
 import './coupon';
 import './input';
-import './order-button';
 import './privacy-policy';
 import './radio';
 import './select';
