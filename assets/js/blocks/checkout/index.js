@@ -13,7 +13,7 @@ import './cart';
 import './checkbox';
 import './coupon';
 import './input';
-import './privacy-policy';
+import './place-order';
 import './radio';
 import './select';
 import './textarea';
@@ -30,8 +30,9 @@ registerBlockType( 'woocommerce/checkout', {
 			<InnerBlocks
 				template={ [
 					[ 'woocommerce/checkout-coupon' ],
-					[ 'woocommerce/billing' ],
+					[ 'woocommerce/checkout-billing' ],
 					[ 'woocommerce/checkout-cart' ],
+					[ 'woocommerce/checkout-place-order' ],
 				] }
 				templateLock="all"
 			/>

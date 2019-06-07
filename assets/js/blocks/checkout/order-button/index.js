@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { Button } from '@wordpress/components';
 
-registerBlockType( 'woocommerce/order-button', {
+registerBlockType( 'woocommerce/checkout-order-button', {
 	title: __( 'Checkout Place Order Button', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],

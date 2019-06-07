@@ -23,7 +23,9 @@ const getFieldBlock = ( field ) => {
 			return [ 'woocommerce/checkout-checkbox', attributes ];
 
 		case 'radio':
-			const options = Object.entries( field.options ).map( ( [ value, optionLabel ] ) => ( { label: optionLabel, value } ) );
+			const options = Object.entries( field.options ).map(
+				( [ value, optionLabel ] ) => ( { label: optionLabel, value } )
+			);
 			return [ 'woocommerce/checkout-radio', { ...attributes, options } ];
 
 		case 'select':
@@ -36,7 +38,7 @@ const getFieldBlock = ( field ) => {
 		case 'email':
 		case 'tel':
 		case 'text':
-			return [ 'woocommerce/checkout-input', { ...attributes, ...{ type: field.type, hasSettings: withSettings.includes( field.autocomplete ) } } ];
+			return [ 'woocommerce/checkout-input', { ...attributes, type: field.type, hasSettings: withSettings.includes( field.autocomplete ) } ];
 
 		default:
 			return [ 'woocommerce/checkout-input', { ...attributes, type: 'text', hasSettings: withSettings.includes( field.autocomplete ) } ];
@@ -44,14 +46,19 @@ const getFieldBlock = ( field ) => {
 };
 
 const getFieldBlocks = () => {
-	if ( 'object' !== typeof wc_checkout_block_data || 'object' !== typeof wc_checkout_block_data.billingFields ) {
+	if (
+		'object' !== typeof wc_checkout_block_data ||
+		'object' !== typeof wc_checkout_block_data.billingFields
+	) {
 		return;
 	}
 
-	return Object.values( wc_checkout_block_data.billingFields ).map( ( field ) => getFieldBlock( field ) );
+	return Object.values( wc_checkout_block_data.billingFields ).map( ( field ) =>
+		getFieldBlock( field )
+	);
 };
 
-registerBlockType( 'woocommerce/billing', {
+registerBlockType( 'woocommerce/checkout-billing', {
 	title: __( 'Billing', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],

@@ -47,7 +47,10 @@ registerBlockType( 'woocommerce/checkout-input', {
 			<Fragment>
 				{ Boolean( ! isVisible ) && (
 					<Notice status="info" isDismissible={ false }>
-						{ __( 'This block is hidden. Visibility can be adjusted in the block settings sidebar.', 'woo-gutenberg-products-block' ) }
+						{ __(
+							'This block is hidden. Visibility can be adjusted in the block settings sidebar.',
+							'woo-gutenberg-products-block'
+						) }
 					</Notice>
 				) }
 				{ hasSettings && (
