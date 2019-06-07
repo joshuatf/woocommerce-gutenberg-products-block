@@ -464,6 +464,7 @@ class WGPB_Block_Library {
 			'billingFields'          => $billing_fields,
 			'enabledPaymentGateways' => $enabled_payment_gateways,
 			'privacyPolicy'          => wc_get_privacy_policy_text( 'checkout' ),
+			'privacyPolicyId'        => wc_privacy_policy_page_id(),
 		);
 		?>
 		<script type="text/javascript">
@@ -663,7 +664,9 @@ class WGPB_Block_Library {
 			}
 
 			$content = trim( $blocks[0]['innerHTML'] );
+			$page_id = $blocks[0]['attrs']['privacyPolicyId'];
 			update_option( 'woocommerce_checkout_privacy_policy_text', $content );
+			update_option( 'wp_page_for_privacy_policy', $page_id );
 		}
 	}
 }
