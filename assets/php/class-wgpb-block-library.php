@@ -665,32 +665,43 @@ class WGPB_Block_Library {
 			}
 			$checkout_block = reset( $blocks );
 
-			// $inner_blocks is a pre-parsed list, so you can filter out to your specific block
-			// You might need to filter into innerBlocks again if you have another nested block (billing, etc).
-			$inner_blocks  = wp_list_filter(
-				$checkout_block['innerBlocks'],
-				array( 'blockName' => 'woocommerce/checkout-privacy-policy' )
-			);
-			$privacy_block = reset( $inner_blocks );
+			$privacy_block = self::find_blocks( $checkout_block['innerBlocks'], 'woocommerce/checkout-privacy-policy' );
+			$toc_block     = self::find_blocks( $checkout_block['innerBlocks'], 'woocommerce/checkout-terms-and-conditions' );
 
-			$content = trim( $privacy_block['innerHTML'] );
-			$page_id = $privacy_block['attrs']['privacyPolicyId'];
-			update_option( 'woocommerce_checkout_privacy_policy_text', $content );
-			update_option( 'wp_page_for_privacy_policy', $page_id );
-		}
-
-		if ( has_block( 'woocommerce/checkout-terms-and-conditions', $post ) ) {
-			$blocks = wp_list_filter(
-				parse_blocks( $post->post_content ),
-				array( 'blockName' => 'woocommerce/checkout-terms-and-conditions' )
-			);
-			if ( empty( $blocks ) ) {
-				return;
+			if ( $privacy_block ) {
+				$content = trim( $privacy_block['innerHTML'] );
+				$page_id = $privacy_block['attrs']['privacyPolicyId'];
+				update_option( 'woocommerce_checkout_privacy_policy_text', $content );
+				update_option( 'wp_page_for_privacy_policy', $page_id );
 			}
 
-			$content = trim( $blocks[0]['innerHTML'] );
-			update_option( 'woocommerce_checkout_terms_and_conditions_checkbox_text', $content );
+			if ( $toc_block ) {
+				$content = trim( $toc_block['innerHTML'] );
+				update_option( 'woocommerce_checkout_terms_and_conditions_checkbox_text', $content );
+			}
 		}
+	}
+
+	/**
+	 * Find a specific block regardless of innerBlocks nesting.
+	 *
+	 * @param array  $blocks     A list of blocks to search through, potentially with innerBlocks.
+	 * @param string $block_name Block type name to search for. When found, the block is returned.
+	 * @return array Associative array representing a block.
+	 */
+	public static function find_blocks( $blocks, $block_name ) {
+		foreach ( $blocks as $block ) {
+			if ( $block_name === $block['blockName'] ) {
+				return $block;
+			}
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				$found_block = self::find_blocks( $block['innerBlocks'], $block_name );
+				if ( $found_block ) {
+					return $found_block;
+				}
+			}
+		}
+		return false;
 	}
 }
 
