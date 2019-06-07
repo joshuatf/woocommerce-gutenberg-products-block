@@ -29,6 +29,6 @@ registerBlockType( 'woocommerce/checkout-place-order', {
 		);
 	},
 	save() {
-		return null;
+		return <InnerBlocks.Content />;
 	},
 } );
