@@ -73,7 +73,7 @@ registerBlockType( 'woocommerce/checkout-input', {
 								/>
 							) }
 						</PanelBody>
-				</InspectorControls>
+					</InspectorControls>
 				) }
 				<TextControl
 					className={ className }
