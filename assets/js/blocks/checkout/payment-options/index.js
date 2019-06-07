@@ -12,6 +12,10 @@ registerBlockType( 'woocommerce/checkout-payment-options', {
 		html: false,
 	},
 	edit() {
+		if ( 'object' !== typeof wc_checkout_block_data || 'object' !== typeof wc_checkout_block_data.enabledPaymentGateways ) {
+			return;
+		}
+
 		return (
 			<div id="payment">
 				<ul className="wc_payment_methods payment_methods methods">
