@@ -35,7 +35,7 @@ class Edit extends Component {
 	}
 }
 
-registerBlockType( 'woocommerce/terms-and-conditions', {
+registerBlockType( 'woocommerce/checkout-terms-and-conditions', {
 	title: __( 'Terms and Conditions', 'woo-gutenberg-products-block' ),
 	category: 'woocommerce-checkout',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
